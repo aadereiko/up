@@ -1,0 +1,11 @@
+commit d06eaf557501e2e7d301731844de5660c906e564 (HEAD -> master)
+Author: Alexandre Adereyko <aadereiko@gmail.com>
+Date:   Wed Feb 7 23:23:06 2018 +0300
+
+    theFirstStatus
+
+commit bc67cf895bdb5bec60d99e8761364dfb1a805e02 (origin/master)
+Author: Alexandre Adereyko <aadereiko@gmail.com>
+Date:   Tue Feb 6 16:23:53 2018 +0300
+
+    add .gitignore

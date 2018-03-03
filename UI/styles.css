@@ -101,7 +101,7 @@
 .menu-block-add{
     float:right;
     width:15vw;
-    padding: 5px 30vw 0vw 0px;
+    padding: 5px 30vw 10px 40px;
     max-width: 15vw;
     max-height: 15vh;
 
@@ -147,15 +147,14 @@
 
 body{
     font-family: Stolzl-Thin, Century Gothic, Georgia;
-    overflow-y: scroll;
-
+    height: 80vh;
 }
 
 .scroll-block {
     clear: both;
-    height: 600px;
+    height: 60vw;
     overflow-y: scroll;
-    overflow-x: scroll;
+    text-align: center;
 }
 
 .downloadYet{
@@ -268,4 +267,7 @@ footer{
     font-family: Stolzl-Thin, Century Gothic, Georgia;
     text-align: center;
     height: 40px;
+    position: absolute;
+    margin-bottom: 0px;
+    width: 100%;
 }

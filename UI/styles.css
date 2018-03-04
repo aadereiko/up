@@ -67,8 +67,6 @@
 .filters{
     height: 50px;
     max-height: 15vh;
-
-
 }
 
 .filters-picture{
@@ -154,7 +152,8 @@ body{
 
 .scroll-block {
     clear: both;
-    height: 60vw;
+    height: 70vh;
+    max-height: 250vw;
     overflow-y: scroll;
     text-align: center;
 }
@@ -273,7 +272,7 @@ footer{
     margin-bottom: 0px;
     width: 100%;
 }
-@media screen and (max-width: 491px) {
+@media screen and (max-width: 540px) {
 
     .filter-blocks{
         float:left;
@@ -281,6 +280,7 @@ footer{
         vertical-align: middle;
         max-width: 40px;
         margin: 5px 5px 5px 5px;
+        font-size: 15px;
     }
     .menu-block-add {
         float: left;
@@ -328,4 +328,5 @@ footer{
         border-top-style: solid;
         border-top-width: 1px;
     }
+
 }

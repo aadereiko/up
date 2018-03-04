@@ -152,7 +152,7 @@ body{
 
 .scroll-block {
     clear: both;
-    height: 70vh;
+    height: 63vh;
     max-height: 250vw;
     overflow-y: scroll;
     text-align: center;

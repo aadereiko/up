@@ -98,6 +98,7 @@
 
 }
 
+
 .menu-block-add{
     float:right;
     width:15vw;
@@ -106,7 +107,6 @@
     max-height: 15vh;
 
 }
-
 .menu-block-avatar{
     float:right;
     max-width: 15vw;
@@ -144,6 +144,8 @@
     border-top-style: solid;
     border-top-width: 1px;
 }
+
+
 
 body{
     font-family: Stolzl-Thin, Century Gothic, Georgia;
@@ -270,4 +272,60 @@ footer{
     position: absolute;
     margin-bottom: 0px;
     width: 100%;
+}
+@media screen and (max-width: 491px) {
+
+    .filter-blocks{
+        float:left;
+        font-family: Stolzl-Thin;
+        vertical-align: middle;
+        max-width: 40px;
+        margin: 5px 5px 5px 5px;
+    }
+    .menu-block-add {
+        float: left;
+        width: 2vw;
+        padding: 0  0 0 15px;
+        max-width: 5vw;
+        max-height: 5vh;
+    }
+
+    .menu-block-avatar{
+        float:right;
+        width: 10vw;
+        max-height: 15vh;
+
+    }
+
+    .menu-block-picture{
+        float:left;
+        max-height: 10vh;
+        max-width: 10vw;
+    }
+
+    .menu-picture:active {
+        height: 40px;
+        max-width: 10vw;
+        max-height: 10vh;
+
+    }
+    footer{
+        clear: both;
+        background: #e3bd8c;
+        font-family: Stolzl-Thin, Century Gothic, Georgia;
+        text-align: center;
+        font-size: 10px;
+        height: 30px;
+        position: absolute;
+        margin-bottom: 0px;
+        width: 100%;
+    }
+
+    .menu{
+        clear: both;
+        height: 70px;
+        border-top-color: #e3bd8c;
+        border-top-style: solid;
+        border-top-width: 1px;
+    }
 }

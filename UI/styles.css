@@ -24,6 +24,7 @@
 
 .filters-picture{
     float: right;
+    height: 10vh;
     width: 50px;
     text-align: right;
     background: url("pictures/filters/filter.png");
@@ -42,7 +43,7 @@
 
 .filter-input{
     color: #e3bd8c;
-    max-height: 15vh;
+    max-height: 10vh;
     max-width: 40vw;
     border-radius: 3px; /*закругление углов (общее)*/
 -webkit-border-radius: 3px; /*закругление углов (Google Chrome)*/
@@ -52,7 +53,7 @@
 
 .filter-input:focus {
     color: #e3bd8c;
-    max-height: 15vh;
+    max-height: 10vh;
     max-width: 10vm;
     border: 1px solid #e3bd8c;
 }
@@ -147,6 +148,7 @@
 body{
     font-family: Stolzl-Thin, Century Gothic, Georgia;
     height: 94vh;
+    /*min-width: 556px;*/
 }
 
 .scroll-block {
@@ -246,6 +248,10 @@ body{
 }
 
 .textHashTag{
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 250px;
+    overflow: hidden;
     font-family: Stolzl-Thin, Century Gothic, Georgia;
     color: gray;
     font-size: 15px;
@@ -265,10 +271,33 @@ footer{
     background: #e3bd8c;
     font-family: Stolzl-Thin, Century Gothic, Georgia;
     text-align: center;
-    height: 5vh;
+    height: 6vh;
     position: absolute;
     margin-bottom: 0px;
     width: 100%;
+}
+
+
+@media screen and (max-width: 1044px){
+    .scroll-block{
+        clear: both;
+        height: 60vh;
+        overflow-y: scroll;
+        text-align: center;
+    }
+
+
+    footer{
+        clear: both;
+        background: #e3bd8c;
+        font-family: Stolzl-Thin, Century Gothic, Georgia;
+        text-align: center;
+        font-size: 10px;
+        height: 7vh;
+        position: absolute;
+        margin-bottom: 0px;
+        width: 100%;
+    }
 }
 
 @media screen and (max-width: 540px) {
@@ -306,15 +335,15 @@ footer{
         height: 40px;
         max-width: 10vw;
         max-height: 10vh;
-
     }
+
     footer{
         clear: both;
         background: #e3bd8c;
         font-family: Stolzl-Thin, Century Gothic, Georgia;
         text-align: center;
         font-size: 10px;
-        height: 30px;
+        height: 6vh;
         position: absolute;
         margin-bottom: 0px;
         width: 100%;
@@ -327,5 +356,14 @@ footer{
         border-top-style: solid;
         border-top-width: 1px;
     }
-
 }
+
+/*@media screen and (max-width: 285px){*/
+    /*.scroll-block{*/
+        /*clear: both;*/
+        /*height: 56vh;*/
+        /*!*max-height: 200vw;*!*/
+        /*overflow-y: scroll;*/
+        /*text-align: center;*/
+    /*}*/
+/*}*/

@@ -235,9 +235,9 @@
                     });
                 }
 
-                if (filterConfing.data) {
+                if (filterConfing.createdAt) {
                     result = result.filter(function (post) {
-                        return post.createdAt >= filterConfing.data;
+                        return post.createdAt >= filterConfing.createdAt;
                     });
                 }
 

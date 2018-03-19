@@ -172,7 +172,7 @@ body{
 }
 
 
-.posts{
+.post{
     float:left;
     margin: 5px 5px 5px 5%;
 }
@@ -212,6 +212,7 @@ body{
     font-family: Stolzl-Thin, Century Gothic, Georgia;
     color: gray;
     font-size: 15px;
+    text-indent: 20px;
     margin: 0px 5px
 }
 
@@ -279,7 +280,7 @@ footer{
 
 
 @media screen and (max-width: 1044px){
-    .scroll-block{
+    .posts{
         clear: both;
         height: 60vh;
         overflow-y: scroll;

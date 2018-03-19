@@ -1,3 +1,5 @@
+"use strict";
+
 (function () {
         function compareDates(a, b) {
             return b.createdAt - a.createdAt;
@@ -224,7 +226,7 @@
                 likes: ['arts', 'draws', 'films'],
                 deleted: false
             }
-        ]
+        ];
 
         function getPhotoPosts(skip, top, filterConfing) {
             let result = photoPosts;
@@ -243,7 +245,7 @@
 
                 if (filterConfing.hashtags && filterConfing.hashtags.length !== 0) {
                     result = result.filter(function (post) {
-                        for (i = 0; i < filterConfing.hashtags.length; i++) {
+                        for (var i = 0; i < filterConfing.hashtags.length; i++) {
                             let condition = post.hashtags.some(function (tag) {
                                 return tag === filterConfing.hashtags[i];
                             });
@@ -259,10 +261,10 @@
                 });
             }
 
+            result.sort(compareDates);
             if (result.length < top) {
                 return result;
             }
-            result.sort(compareDates);
             return result.slice(skip, top);
         }
 
@@ -273,7 +275,7 @@
         }
 
         function validatePhotoPost(post) {
-            if (typeof parseInt(post.id) === "number") {
+            if (typeof parseInt(post.id) === "number" && parseInt(post.id) !== NaN) {
                 if (post.id !== 0) {
                     let condition = post.hashtags.some(function (idTemp) {
                         return idTemp === post.id;
@@ -313,12 +315,12 @@
         function removePhotoPost(id) {
             var post = getPhotoPost(id);
             post.deleted = true;
-            return false;
+            return !!post;
         }
 
 
         function editPost(id, post) {
-            if (post.description !== 0 && post.description.length > 200) {
+            if (post.description && post.description.length > 200) {
                 return false;
             }
 
@@ -330,9 +332,7 @@
                 getTemp.photoLink = post.photoLink;
             }
             if (post.hashtags) {
-                for (var j = 0; j < post.hashtags.length; j++) {
-                    getTemp.hashtags[j] = post.hashtags[j];
-                }
+                getTemp.hashtags = post.hashtags.slice();
             }
 
             return getTemp || 0;

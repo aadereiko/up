@@ -1,11 +1,8 @@
 "use strict";
 
-(function () {
-        function compareDates(a, b) {
-            return b.createdAt - a.createdAt;
-        }
-
-        let photoPosts = [
+let USER_AUTHORIZED = "Djadka.by";
+let mapHash = [];
+let photoPosts = [
             {
                 id: '1',
                 description: 'красота!',
@@ -33,6 +30,7 @@
                 description: 'Вода',
                 createdAt: new Date(),
                 author: 'aadereiko',
+
                 authorPhoto: './pictures/post/post1/avaOther.png',
                 photoLink: 'https://i.ytimg.com/vi/9NKyArdusj8/maxresdefault.jpg',
                 hashtags: ['вода', 'горы'],
@@ -100,7 +98,7 @@
                 createdAt: new Date(),
                 author: 'aadereiko',
                 authorPhoto: './pictures/post/post1/avaOther.png',
-                photoLink: 'http://oboi-na-stol.com/pub/original_images/oboi-na-stol.com-98967-mashiny-ferrari-f430-avto-mashiny-avtomobili.jpg',
+                photoLink: 'https://mosautoshina.ru/i/auto/ferrari_f430_2008.jpg',
                 hashtags: ['Ferrari', 'F430'],
                 likes: ['tachki', 'chai', 'ss'],
                 deleted: false
@@ -176,7 +174,7 @@
                 description: 'crupo7',
                 createdAt: new Date(),
                 author: 'films',
-                authorPhoto: 'https://static.kinoafisha.info/k/movie_posters/1920x1080/upload/movie_posters/7/8/9/8143987/804fe6d00e2cfb98841de815d5a3fce0.jpg',
+                authorPhoto: 'https://im0-tub-by.yandex.net/i?id=3979f00131c7422720695dcb01d2dce2&n=13',
                 photoLink: 'https://static.kinoafisha.info/k/movie_posters/1920x1080/upload/movie_posters/7/8/9/8143987/804fe6d00e2cfb98841de815d5a3fce0.jpg',
                 hashtags: ['Antonio'],
                 likes: ['aadereiko'],
@@ -187,7 +185,7 @@
                 description: 'Найди меня',
                 createdAt: new Date(),
                 author: 'films',
-                authorPhoto: 'https://static.kinoafisha.info/k/movie_posters/1920x1080/upload/movie_posters/7/8/9/8143987/804fe6d00e2cfb98841de815d5a3fce0.jpg',
+                authorPhoto: 'https://im0-tub-by.yandex.net/i?id=3979f00131c7422720695dcb01d2dce2&n=13',
                 photoLink: 'https://www.kinocitymall.ru/images/posters/fdad9ac238d6034e.jpg',
                 hashtags: ['Бумажные города'],
                 likes: ['lubov', 'zhizhn'],
@@ -198,7 +196,7 @@
                 description: 'Без компромиссов',
                 createdAt: new Date(),
                 author: 'films',
-                authorPhoto: 'https://static.kinoafisha.info/k/movie_posters/1920x1080/upload/movie_posters/7/8/9/8143987/804fe6d00e2cfb98841de815d5a3fce0.jpg',
+                authorPhoto: 'https://im0-tub-by.yandex.net/i?id=3979f00131c7422720695dcb01d2dce2&n=13',
                 photoLink: 'http://glass-kino.ucoz.ru/_nw/15/46383748.jpg',
                 hashtags: ['стэтхем'],
                 likes: [],
@@ -210,7 +208,7 @@
                 createdAt: new Date(),
                 author: 'cars',
                 authorPhoto: 'http://skachat-kartinki.ru/img/picture/Oct/04/417e63b46e74be245aca2a969133b567/4.jpg',
-                photoLink: 'http://hdrezka.me/i/2014/5/6/x3a2391d33a7fry78q63d.jpg',
+                photoLink: 'https://paris-life.info/wp-content/uploads/2016/11/eifeel-tower-paris-1068x712.jpg',
                 hashtags: ['гонка'],
                 likes: ['shmonka', 'dashka'],
                 deleted: false
@@ -220,15 +218,22 @@
                 description: 'Лучшее во мне',
                 createdAt: new Date(),
                 author: 'films',
-                authorPhoto: 'https://static.kinoafisha.info/k/movie_posters/1920x1080/upload/movie_posters/7/8/9/8143987/804fe6d00e2cfb98841de815d5a3fce0.jpg',
+                authorPhoto: 'https://im0-tub-by.yandex.net/i?id=3979f00131c7422720695dcb01d2dce2&n=13',
                 photoLink: 'https://disput.azstatic.com/uploads/monthly_2017_06/596362.jpg.80fcd483cdbed4a9572f79ce745fd097.jpg',
                 hashtags: ['InMe'],
                 likes: ['arts', 'draws', 'films'],
                 deleted: false
             }
         ];
+let begOfVisiblePosts = 0;
 
-        function getPhotoPosts(skip, top, filterConfing) {
+let jsFunctions  = function () {
+    function compareDates(a, b) {
+        return b.createdAt - a.createdAt;
+    }
+
+    return {
+        getPhotoPosts: function (skip, top, filterConfing) {
             let result = photoPosts;
             if (filterConfing) {
                 if (filterConfing.author) {
@@ -245,7 +250,7 @@
 
                 if (filterConfing.hashtags && filterConfing.hashtags.length !== 0) {
                     result = result.filter(function (post) {
-                        for (var i = 0; i < filterConfing.hashtags.length; i++) {
+                        for (let i = 0; i < filterConfing.hashtags.length; i++) {
                             let condition = post.hashtags.some(function (tag) {
                                 return tag === filterConfing.hashtags[i];
                             });
@@ -266,16 +271,16 @@
                 return result;
             }
             return result.slice(skip, top);
-        }
+        },
 
-        function getPhotoPost(id) {
+        getPhotoPost: function (id) {
             return photoPosts.find(function (elem) {
-                return parseInt(elem.id) === id;
+                return parseInt(elem.id) == id;
             })
-        }
+        },
 
-        function validatePhotoPost(post) {
-            if (typeof parseInt(post.id) === "number" && parseInt(post.id) !== NaN) {
+        validatePhotoPost: function (post) {
+            if (parseInt(post.id) !== NaN) {
                 if (post.id !== 0) {
                     let condition = post.hashtags.some(function (idTemp) {
                         return idTemp === post.id;
@@ -302,29 +307,40 @@
                 return false;
             }
             return false;
-        }
+        },
 
-        function addPhotoPost(post) {
-            if (validatePhotoPost(post) === true) {
+        addPhotoPost: function (post) {
+            if (jsFunctions.validatePhotoPost(post) === true) {
                 photoPosts.push(post);
+                let index;
+                for(let i = 0; i < post.hashtags.length; i++){
+                    index = mapHash.map(function (elem) {
+                        return elem.word;
+                    }).indexOf(post.hashtags[i]);
+                    if(index === -1) {
+                        mapHash.push({word: post.hashtags[i], count: 1});
+                    } else {
+                        mapHash[index].count += 1;
+                    }
+                }
                 return true;
             }
             return false;
-        }
+        },
 
-        function removePhotoPost(id) {
-            var post = getPhotoPost(id);
-            post.deleted = true;
+        removePhotoPost: function (id) {
+            let post = jsFunctions.getPhotoPost(id);
+            if(post)
+                post.deleted = true;
             return !!post;
-        }
+        },
 
-
-        function editPost(id, post) {
+        editPost: function (id, post) {
             if (post.description && post.description.length > 200) {
                 return false;
             }
 
-            var getTemp = getPhotoPost(id);
+            let getTemp = jsFunctions.getPhotoPost(id);
             if (post.description) {
                 getTemp.description = post.description;
             }
@@ -337,31 +353,298 @@
 
             return getTemp || 0;
         }
+    }
+}();
 
-        let filerFound = {
-            author: 'Djadka.by',
-            hashtags: ['Одуваны', 'Детки']
-        };
-
-        let pp = getPhotoPost(20);
-        console.log(pp);
-        validatePhotoPost(filerFound);
-        let OnePost = {
-            id: '22',
-            description: '1',
-            // createdAt: new Date(),
-            author: '1',
-            photoLink: '2',
-            hashtags: ['3'],
-            likes: ['4', '5', '6']
-        }
-        editPost(20, OnePost);
-        addPhotoPost(OnePost);
-        console.log(getPhotoPosts(10, 20, filerFound));
-
-
+let DOMFunctions = function() {
+    function compareHash(a, b) {
+        return b.count - a.count;
     }
 
+    let downloadYet = document.querySelector(".downloadYet");
+    let postsHTML = document.querySelector(".posts");
 
-)();
+    return {
+        printOnScreen:  function (skip, top, filterConfing) {
+            let arrPosts = document.querySelectorAll(".post");
+            for(let i = 0; i < arrPosts.length; i++){
+                arrPosts[i].remove();
+            }
+            let arrForPrint = jsFunctions.getPhotoPosts(skip, top, filterConfing);
 
+            let br = document.createElement("br");
+            let br2 = document.createElement("br");
+
+            for (let i = 0; i < arrForPrint.length; i++) {
+                if (arrForPrint[i].author === USER_AUTHORIZED) {
+                    DOMFunctions.addDomPhotoPostByUser(arrForPrint[i]);
+                } else {
+                    DOMFunctions.addDomPhotoPostNotByUser(arrForPrint[i]);
+                }
+                if (i === 4) {
+                    postsHTML.appendChild(br);
+                }
+            }
+            postsHTML.insertBefore(br2, downloadYet);
+        },
+        makeStringForHashtags: function (hashtags) {
+        if (hashtags.length != 0) {
+            let resultString = "";
+            for (let i = 0; i < hashtags.length; i++) {
+                resultString += "#" + hashtags[i];
+            }
+            return resultString;
+        }
+        return 0;
+    },
+
+        addDomPhotoPostNotByUser: function (post) {
+        let newDiv = document.createElement("div");
+        let pictureAva = document.createElement("IMG");
+        let pName = document.createElement("p");
+        let pDate = document.createElement("p");
+        let pTime = document.createElement("p");
+        let pTextLike = document.createElement("p");
+        let pTextComment = document.createElement("p");
+        let pHashTag = document.createElement("p");
+        let pForPhoto = document.createElement("p");
+        let picturePhoto = document.createElement("IMG");
+        let likePost = document.createElement("IMG");
+        pForPhoto.className = "dataUser";
+        pTextLike.className = "textLike";
+        pTextLike.textContent = post.likes.length.toString();
+        pTextComment.textContent = post.description;
+        pTextComment.className = "textComment";
+        pHashTag.textContent = DOMFunctions.makeStringForHashtags(post.hashtags) || 0;
+        pHashTag.className = "textHashTag";
+        likePost.src = "./pictures/post/NotPressed.png";
+        likePost.alt = "Лайк";
+        if (USER_AUTHORIZED !== null)
+            likePost.className = "likePost";
+        else
+            likePost.className = "likePostUnAuth";
+        pictureAva.src = post.authorPhoto;
+        pictureAva.alt = "Фото пользователя";
+        pictureAva.className = "avaPost";
+        pName.className = "postUser";
+        pName.textContent = post.author;
+        pDate.className = "dataUser";
+        pDate.textContent = post.createdAt.getDate() + '.' + post.createdAt.getMonth() + '.' + post.createdAt.getFullYear();
+        pTime.className = "dataUser";
+        pTime.textContent = post.createdAt.getHours() + ':' + post.createdAt.getUTCMinutes() + ':' + post.createdAt.getSeconds();
+        picturePhoto.alt = "Фото поста";
+        picturePhoto.src = post.photoLink;
+        picturePhoto.className = "photoPost";
+        newDiv.className = "post";
+        newDiv.id = post.id;
+        newDiv.appendChild(pictureAva);
+        newDiv.appendChild(pName);
+        newDiv.appendChild(pDate);
+        newDiv.appendChild(pTime);
+        newDiv.appendChild(pForPhoto);
+        pForPhoto.appendChild(picturePhoto);
+        newDiv.appendChild(likePost);
+        newDiv.appendChild(pTextLike);
+        newDiv.appendChild(pTextComment);
+        newDiv.appendChild(pHashTag);
+        postsHTML.insertBefore(newDiv, downloadYet);
+    },
+
+        addDomPhotoPostByUser: function (post) {
+        let newDiv = document.createElement("div");
+        let pictureAva = document.createElement("IMG");
+        let pName = document.createElement("p");
+        let pDate = document.createElement("p");
+        let pTime = document.createElement("p");
+        let pTextLike = document.createElement("p");
+        let pTextComment = document.createElement("p");
+        let pHashTag = document.createElement("p");
+        let pForPhoto = document.createElement("p");
+        let picturePhoto = document.createElement("IMG");
+        let likePost = document.createElement("IMG");
+        let editButton = document.createElement("IMG");
+        let deleteButton = document.createElement("IMG");
+        editButton.src = "./pictures/post/edit.png";
+        editButton.className = "editPost";
+        editButton.alt = "Изменить пост";
+        deleteButton.src = "./pictures/post/delete.png";
+        deleteButton.className = "editPost";
+        deleteButton.alt = "Удалить пост";
+        pForPhoto.className = "dataUser";
+        pTextLike.className = "textLike";
+        pTextLike.textContent = post.likes.length.toString();
+        pTextComment.textContent = post.description;
+        newDiv.id = post.id;
+        pTextComment.className = "textComment";
+        pHashTag.textContent = DOMFunctions.makeStringForHashtags(post.hashtags) || 0;
+        pHashTag.className = "textHashTag";
+        likePost.src = "./pictures/post/NotPressed.png";
+        likePost.alt = "Лайк";
+        likePost.className = "likePost";
+        pictureAva.src = post.authorPhoto;
+        pictureAva.alt = "Фото пользователя";
+        pictureAva.className = "avaPost";
+        pName.className = "postUser";
+        pName.textContent = post.author;
+        pDate.className = "dataUser";
+        pDate.textContent = post.createdAt.getDate() + '.' + post.createdAt.getMonth() + '.' + post.createdAt.getFullYear();
+        pTime.className = "dataUser";
+        pTime.textContent = post.createdAt.getHours() + ':' + post.createdAt.getUTCMinutes() + ':' + post.createdAt.getSeconds();
+        picturePhoto.alt = "Фото поста";
+        picturePhoto.src = post.photoLink;
+        picturePhoto.className = "photoPost";
+        newDiv.className = "post";
+        newDiv.appendChild(pictureAva);
+        newDiv.appendChild(pName);
+        newDiv.appendChild(pDate);
+        newDiv.appendChild(pTime);
+        newDiv.appendChild(pForPhoto);
+        pForPhoto.appendChild(picturePhoto);
+        newDiv.appendChild(likePost);
+        newDiv.appendChild(pTextLike);
+        newDiv.appendChild(pTextComment);
+        newDiv.appendChild(pHashTag);
+        newDiv.appendChild(editButton);
+        newDiv.appendChild(deleteButton);
+        postsHTML.insertBefore(newDiv, downloadYet);
+    },
+
+        deleteDomPhotoPost: function (post) {
+        let deletedPost = document.getElementById(post.id);
+        postsHTML.removeChild(deletedPost);
+    },
+
+        editDomPhotoPost: function (post, newPost) {
+        let editedPost = document.getElementById(post.id);
+        let result = document.createElement("div");
+
+        result.innerHTML = editedPost.innerHTML;
+        result.id = post.id;
+        result.className = "post";
+        if (newPost.description) {
+            let re = result.querySelector(".textComment");
+            re.textContent = newPost.description;
+        }
+        if (newPost.photoLink) {
+            result.querySelector(".photoPost").src = newPost.photoLink;
+        }
+        if (newPost.hashtags) {
+            result.querySelector(".textHashTag").textContent = DOMFunctions.makeStringForHashtags(newPost.hashtags);
+        }
+        postsHTML.insertBefore(result, editedPost);
+        postsHTML.removeChild(editedPost);
+    },
+
+        createMenuForUser: function () {
+        let menuBlockPictureExit = document.createElement("div");
+        let menuPictureExit = document.createElement("img");
+        let menuBlockPicture = document.createElement("div");
+        let menuPicture = document.createElement("img");
+        let menuBlockAvatar = document.createElement("div");
+        let menuPictureMarginAvatar = document.createElement("img");
+        let menuBlockAdd = document.createElement("div");
+        let menuPictureMargin = document.createElement("img");
+
+        menuBlockPictureExit.className = "menu-block-picture";
+        menuPictureExit.src = "./pictures/menu/exit.png";
+        menuPictureExit.className = "menu-picture";
+        menuPictureExit.alt = "Выход";
+        menuBlockPictureExit.appendChild(menuPictureExit);
+
+        menuBlockPicture.className = "menu-block-picture";
+        menuPicture.src = "./pictures/menu/home.png";
+        menuPicture.className = "menu-picture";
+        menuPicture.alt = "На главную";
+        menuBlockPicture.appendChild(menuPicture);
+
+        menuBlockAvatar.className = "menu-block-avatar";
+        menuPictureMargin.src = "./pictures/menu/mainPhoto.png";
+        menuPictureMargin.className = "menu-picture-margin";
+        menuPictureMargin.title = USER_AUTHORIZED;
+        menuPictureMargin.alt = "Ава авторизованного пользователя";
+        menuBlockAvatar.appendChild(menuPictureMargin);
+
+        menuBlockAdd.className = "menu-block-add";
+        menuPictureMarginAvatar.src = "./pictures/menu/add.png";
+        menuPictureMarginAvatar.className = "menu-picture-margin";
+        menuPictureMarginAvatar.alt = "Добавить пост";
+        menuBlockAdd.appendChild(menuPictureMarginAvatar);
+
+        let menu = document.querySelector(".menu");
+        menu.appendChild(menuBlockPictureExit);
+        menu.appendChild(menuBlockPicture);
+        menu.appendChild(menuBlockAvatar);
+        menu.appendChild(menuBlockAdd);
+    },
+
+        createMenuNotForUser: function () {
+        let menuEnter = document.createElement("div");
+        let menuEnterPicture = document.createElement("img");
+
+        menuEnter.className = "menu-block-add";
+        menuEnterPicture.src = "./pictures/menu/exit.png";
+        menuEnterPicture.className = "menu-picture";
+        menuEnterPicture.alt = "Войти";
+        menuEnter.appendChild(menuEnterPicture);
+
+        let menu = document.querySelector(".menu");
+        menu.appendChild(menuEnterPicture);
+    },
+
+        fillMapHash: function () {
+        for (let i = 0; i < photoPosts.length; i++) {
+            for (let j = 0; j < photoPosts[i].hashtags.length; j++) {
+                let index = mapHash.map(function (elem) {
+                    return elem.word;
+                }).indexOf(photoPosts[i].hashtags[j]);
+                if (index === -1) {
+                    mapHash.push({word: photoPosts[i].hashtags[j], count: 1})
+                } else {
+                    mapHash[index].count += 1;
+                }
+            }
+        }
+    },
+
+        propHash: function () {
+        mapHash.sort(compareHash);
+        let proposition = document.querySelectorAll("option");
+        proposition[1].innerText = mapHash[0].word;
+        proposition[2].innerText = mapHash[1].word;
+        proposition[3].innerText = mapHash[2].word;
+        proposition[4].innerText = mapHash[3].word;
+    }
+
+    }
+}();
+
+if (USER_AUTHORIZED === null) {
+    DOMFunctions.createMenuNotForUser();
+} else {
+    DOMFunctions.createMenuForUser();
+}
+
+DOMFunctions.printOnScreen(begOfVisiblePosts, begOfVisiblePosts + 10);
+
+function addPhotoPost(post){
+    if(jsFunctions.addPhotoPost(post)){
+        DOMFunctions.printOnScreen(begOfVisiblePosts, begOfVisiblePosts +  10);
+    }
+}
+
+function deletePhotoPost(id){
+    let post = jsFunctions.getPhotoPost(id);
+    if(jsFunctions.removePhotoPost(post.id)){
+        DOMFunctions.deleteDomPhotoPost(post);
+    }
+}
+
+function editPhotoPost(idOLd, postNew){
+    let postOld = jsFunctions.getPhotoPost(idOLd);
+    if(jsFunctions.editPost(postOld.id, postNew)){
+        DOMFunctions.editDomPhotoPost(postOld, postNew);
+    }
+}
+
+DOMFunctions.fillMapHash();
+DOMFunctions.propHash();

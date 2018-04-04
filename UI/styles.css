@@ -106,6 +106,7 @@
 
 }
 .menu-block-avatar{
+    border-radius: 100px;
     float:right;
     max-width: 15vw;
     height: 50px;
@@ -197,6 +198,7 @@ body{
 
 
 .avaPost{
+    border-radius: 100px;
     width: 50px;
     float: left;
 }
@@ -223,6 +225,14 @@ body{
     float: left;
 }
 
+.likePostUnAuth{
+    width: 30px;
+    height: 30px;
+    margin: 0px 5px 0px 0px;
+    float: left;
+}
+
+
 .likePost:active {
     width: 30px;
     height: 30px;
@@ -230,7 +240,6 @@ body{
     float: left;
     background: url(pictures/post/like.png);
     background-size: 30px;
-
 }
 
 .textLike{

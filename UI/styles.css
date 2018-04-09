@@ -45,16 +45,14 @@
     color: #e3bd8c;
     max-height: 10vh;
     max-width: 40vw;
-    border-radius: 3px; /*закругление углов (общее)*/
--webkit-border-radius: 3px; /*закругление углов (Google Chrome)*/
--moz-border-radius: 3px; /*закругление углов (FireFox)*/
--khtml-border-radius: 3px; /*закругление углов (Safari)*/
+    border-radius: 3px;
 }
 
 .filter-input:focus {
     color: #e3bd8c;
     max-height: 10vh;
     max-width: 10vm;
+    border-radius: 3px;
     border: 1px solid #e3bd8c;
 }
 
@@ -119,20 +117,11 @@
 .menu-picture-margin{
     height: 50px;
     max-width: 25vw;
-    -webkit-transition-duration: 0.8s;
-    -moz-transition-duration: 0.8s;
-    -o-transition-duration: 0.8s;
     transition-duration: 0.8s;
-    -webkit-transition-property: -webkit-transform;
-    -moz-transition-property: -moz-transform;
-    -o-transition-property: -o-transform;
     transition-property: transform;
 }
+
 .menu-picture-margin:hover{
-    -moz-transform: rotate(360deg);
-    -webkit-transform: rotate(360deg);
-    -o-transform: rotate(360deg);
-    -ms-transform: rotate(360deg);
     transform: rotate(360deg);
 }
 
@@ -160,16 +149,16 @@ body{
     text-align: center;
 }
 
-.downloadYet{
+.downloadMore{
     clear:both;
     text-align: center;
     height: 100px;
 }
 
-.downloadYet:active{
+.downloadMore:active{
     clear:both;
     text-align: center;
-    height: 120px;
+    height: 105px;
 }
 
 
@@ -192,7 +181,7 @@ body{
 
 .editPost:active{
     margin: 0;
-    width: 33px;
+    width: 28px;
     float: right;
 }
 

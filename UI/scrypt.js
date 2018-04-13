@@ -1,12 +1,12 @@
 "use strict";
 
-let realizationOfFunctional  = function () {
+let ApplicationModel  = function () {
     function compareDates(a, b) {
         return b.createdAt - a.createdAt;
     }
 
     return {
-        user_authorized: "Djadka.by",
+        user_authorized: null,
         mapHash: [],
         photoPosts: [
         {
@@ -235,24 +235,25 @@ let realizationOfFunctional  = function () {
 
         addHashTagsInMapHash: function (post) {
             let indexOfFoundHashtag;
+
             //if this adding hashtag exists in container, we just add 1 to "count", else we're pushing this hashtag.
-            for (let i = 0; i < post.hashtags.length; i++) {
-                indexOfFoundHashtag = realizationOfFunctional.mapHash.map(function (elem) {
-                    return elem.word;
-                }).indexOf(post.hashtags[i]);
-                if (indexOfFoundHashtag === -1) {
-                    realizationOfFunctional.mapHash.push({word: post.hashtags[i], count: 1});
-                } else {
-                    realizationOfFunctional.mapHash[indexOfFoundHashtag].count += 1;
-                }
-            }
+            post.hashtags.forEach(
+                (hashtag) => {
+                    indexOfFoundHashtag = ApplicationModel.mapHash.map(function (elem) {
+                        return elem.word;
+                    }).indexOf(hashtag);
+                    if (indexOfFoundHashtag === -1) {
+                        ApplicationModel.mapHash.push({word: hashtag, count: 1});
+                    } else {
+                        ApplicationModel.mapHash[indexOfFoundHashtag].count += 1;
+                    }
+                })
         },
 
-
         getPhotoPosts: function (skip, top, filterConfing) {
-            let result = realizationOfFunctional.photoPosts;
+            let result = ApplicationModel.photoPosts;
 
-            result.filter(function (post) {
+            result = result.filter(function (post) {
                 return !post.deleted;
             });
 
@@ -284,65 +285,70 @@ let realizationOfFunctional  = function () {
                 }
             }
 
-            result.sort(compareDates);
             if(result.length === 0){
                 return [];
             }
+
+            result.sort(compareDates);
 
             return result.slice(skip, skip + top);
         },
 
         getPhotoPost: function (id) {
-            return realizationOfFunctional.photoPosts.find(function (elem) {
-                return elem.id == id;
+            return ApplicationModel.photoPosts.find(function (elem) {
+                return String(elem.id) === String(id);
             })
         },
 
         validatePhotoPost: function (post) {
-            if (post.id === NaN) {
+            if (isNaN(post.id)) {
                 return false;
             }
 
-            if (post.id == 0) {
+            if (String(post.id) === '0') {
                 return false;
             }
 
-            let condition = post.hashtags.some(function (idTemp) {
-                return idTemp == post.id;
+            let isNotUniqueID = post.hashtags.some(function (idTemp) {
+                return String(idTemp) === String(post.id);
             });
 
-            if (!condition) {
-                if (typeof post.description === "string") {
-                    if (post.description && post.description.length > 200 || post.description.length < 0) {
-                        return false;
-                    }
-                } else {
+            if (!isNotUniqueID) {
+                if (typeof post.description !== "string" || post.description.length > 200 || post.description.length < 0) {
                     return false;
                 }
 
-                if (post.createdAt instanceof Date && typeof(post.author) === "string" && typeof(post.photoLink) === "string") {
-                    if (!(post.id && post.description && post.createdAt && post.author && post.photoLink)) {
-                        return false;
-                    }
-                    return true;
-                } else {
+                if (typeof(post.author) !== "string") {
                     return false;
                 }
+
+                if (!(post.createdAt instanceof Date)) {
+                    return false;
+                }
+
+                if (typeof(post.photoLink) !== "string") {
+                    return false;
+                }
+
+                if (!(post.id && post.description && post.createdAt && post.author && post.photoLink)) {
+                    return false;
+                }
+
+                return true;
             }
-            return false;
         },
 
         addPhotoPost: function (post) {
-            if (realizationOfFunctional.validatePhotoPost(post)) {
-                realizationOfFunctional.photoPosts.push(post);
-                realizationOfFunctional.addHashTagsInMapHash(post);
+            if (ApplicationModel.validatePhotoPost(post)) {
+                ApplicationModel.photoPosts.push(post);
+                ApplicationModel.addHashTagsInMapHash(post);
                 return true;
             }
             return false;
         },
 
         removePhotoPost: function (id) {
-            let post = realizationOfFunctional.getPhotoPost(id);
+            let post = ApplicationModel.getPhotoPost(id);
             if(post) {
                 post.deleted = true;
             }
@@ -354,7 +360,7 @@ let realizationOfFunctional  = function () {
                 return false;
             }
 
-            let getTemp = realizationOfFunctional.getPhotoPost(id);
+            let getTemp = ApplicationModel.getPhotoPost(id);
             if (post.description) {
                 getTemp.description = post.description;
             }
@@ -365,33 +371,36 @@ let realizationOfFunctional  = function () {
                 getTemp.hashtags = post.hashtags.slice();
             }
 
-            return getTemp || 0;
+            return getTemp || null;
+        },
+
+        fillMapHash: function () {
+            for(let i = 0; i < ApplicationModel.photoPosts.length; i++){
+                ApplicationModel.addHashTagsInMapHash(ApplicationModel.photoPosts[i]);
+            }
         }
     }
 }();
 
-let VisualFunctions = function() {
+let ViewModule = function() {
+    //we're using compareHash to sort hashMap to get the most popular posts
     function compareHash(a, b) {
         return b.count - a.count;
     }
 
-    let containerPosts= document.querySelector(".posts");
+    let containerPosts = document.querySelector('.posts');
 
     return {
         printOnScreen: function (skip, top, filterConfing) {
             let arrPosts = document.querySelectorAll(".post");
-            for (let i = 0; i < arrPosts.length; i++) {
-                arrPosts[i].remove();
-            }
-            let arrForPrint = realizationOfFunctional.getPhotoPosts(skip, top, filterConfing);
+            arrPosts.forEach((post)=>{
+                post.remove();
+            })
+            let arrForPrint = ApplicationModel.getPhotoPosts(skip, top, filterConfing);
 
-            for (let i = 0; i < arrForPrint.length; i++) {
-                if (arrForPrint[i].author === realizationOfFunctional.user_authorized) {
-                    VisualFunctions.addDomPhotoPostByUser(arrForPrint[i]);
-                } else {
-                    VisualFunctions.addDomPhotoPostNotByUser(arrForPrint[i]);
-                }
-            }
+            arrForPrint.forEach((post)=> {
+                ViewModule.addDomPhotoPost(post);
+            });
         },
         makeStringForHashtags: function (hashtags) {
             if (hashtags.length !== 0) {
@@ -404,9 +413,9 @@ let VisualFunctions = function() {
             return 0;
         },
 
-        addDomPhotoPostNotByUser: function (post) {
+        addDomPhotoPost: function (post) {
             let classForLikes;
-            if(realizationOfFunctional.user_authorized === null){
+            if(ApplicationModel.user_authorized === null){
                 classForLikes = "likePostUnAuth";
             } else {
                 classForLikes = "likePost";
@@ -414,39 +423,25 @@ let VisualFunctions = function() {
             let newDiv = document.createElement("div");
             newDiv.className = "post";
             newDiv.id = post.id;
-            newDiv.innerHTML = `<img src="${post.authorPhoto}" alt="Фото пользователя" class="avaPost">
-<p class="postUser">${post.author}</p>
-<p class="dataUser">${post.createdAt.getDate()}.${post.createdAt.getMonth()}.${post.createdAt.getFullYear()}</p>
-<p class="dataUser">${post.createdAt.getHours()}:${post.createdAt.getUTCMinutes()}:${post.createdAt.getSeconds()}</p>
-<p class="dataUser"><img alt="Фото поста" src="${post.photoLink}" class="photoPost"></p>
-<img src="./pictures/post/NotPressed.png" alt="Лайк" class="${classForLikes}">
-<p class="textLike">${post.likes.length.toString()}</p>
-<p class="textComment">${post.description}</p>
-<p class="textHashTag">${VisualFunctions.makeStringForHashtags(post.hashtags) || 0}</p>
-`
+            newDiv.innerHTML = `
+                    <img src="${post.authorPhoto}" alt="Фото пользователя" class="avaPost">
+                    <p class="postUser">${post.author}</p>
+                    <p class="dataUser">${post.createdAt.getDate()}.${post.createdAt.getMonth()}.${post.createdAt.getFullYear()}</p>
+                    <p class="dataUser">${post.createdAt.getHours()}:${post.createdAt.getUTCMinutes()}:${post.createdAt.getSeconds()}</p>
+                    <p class="dataUser"><img alt="Фото поста" src="${post.photoLink}" class="photoPost"></p>
+                    <img src="./pictures/post/NotPressed.png" alt="Лайк" class="${classForLikes}">
+                    <p class="textLike">${post.likes.length.toString()}</p>
+                    <p class="textComment">${post.description}</p>
+                    <p class="textHashTag">${ViewModule.makeStringForHashtags(post.hashtags) || 0}</p>
+            `;
+            if(post.author === ApplicationModel.user_authorized){
+                newDiv.innerHTML += `
+                    <img src="./pictures/post/edit.png" class="editPost" alt="Изменить пост">
+                    <img src="./pictures/post/delete.png" class="editPost" alt="Удалить пост">
+            `
+            }
             containerPosts.appendChild(newDiv);
         },
-
-        addDomPhotoPostByUser: function (post) {
-            let newDiv = document.createElement("div");
-            newDiv.className = "post";
-            newDiv.id = post.id;
-            newDiv.innerHTML = `<img src="${post.authorPhoto}" alt="Фото пользователя" class="avaPost">
-<p class="postUser">${post.author}</p>
-<p class="dataUser">${post.createdAt.getDate()}.${post.createdAt.getMonth()}.${post.createdAt.getFullYear()}</p>
-<p class="dataUser">${post.createdAt.getHours()}:${post.createdAt.getUTCMinutes()}:${post.createdAt.getSeconds()}</p>
-<p class="dataUser"><img alt="Фото поста" src="${post.photoLink}" class="photoPost"></p>
-<img src="./pictures/post/NotPressed.png" alt="Лайк" class="likePost">
-<p class="textLike">${post.likes.length.toString()}</p>
-<p class="textComment">${post.description}</p>
-<p class="textHashTag">${VisualFunctions.makeStringForHashtags(post.hashtags) || 0}</p>
-<img src="./pictures/post/edit.png" class="editPost" alt="Изменить пост">
-<img src="./pictures/post/delete.png" class="editPost" alt="Удалить пост">
-`
-            containerPosts.appendChild(newDiv);
-
-        },
-
 
         deleteDomPhotoPost: function (post) {
             let deletedPost = document.getElementById(post.id);
@@ -468,112 +463,65 @@ let VisualFunctions = function() {
                 result.querySelector(".photoPost").src = newPost.photoLink;
             }
             if (newPost.hashtags) {
-                result.querySelector(".textHashTag").textContent = VisualFunctions.makeStringForHashtags(newPost.hashtags);
+                result.querySelector(".textHashTag").textContent = ViewModule.makeStringForHashtags(newPost.hashtags);
             }
-            containerPosts.insertBefore(result, editedPost);
-            containerPosts.removeChild(editedPost);
+            containerPosts.replaceChild(result, editedPost);
         },
 
         createMenuForUser: function () {
-            let menuBlockPictureExit = document.createElement("div");
-            let menuPictureExit = document.createElement("img");
-            let menuBlockPicture = document.createElement("div");
-            let menuPicture = document.createElement("img");
-            let menuBlockAvatar = document.createElement("div");
-            let menuPictureMarginAvatar = document.createElement("img");
-            let menuBlockAdd = document.createElement("div");
-            let menuPictureMargin = document.createElement("img");
-
-            menuBlockPictureExit.className = "menu-block-picture";
-            menuPictureExit.src = "./pictures/menu/exit.png";
-            menuPictureExit.className = "menu-picture";
-            menuPictureExit.alt = "Выход";
-            menuBlockPictureExit.appendChild(menuPictureExit);
-
-            menuBlockPicture.className = "menu-block-picture";
-            menuPicture.src = "./pictures/menu/home.png";
-            menuPicture.className = "menu-picture";
-            menuPicture.alt = "На главную";
-            menuBlockPicture.appendChild(menuPicture);
-
-            menuBlockAvatar.className = "menu-block-avatar";
-            menuPictureMargin.src = "./pictures/menu/mainPhoto.png";
-            menuPictureMargin.className = "menu-picture-margin";
-            menuPictureMargin.title = realizationOfFunctional.user_authorized;
-            menuPictureMargin.alt = "Ава авторизованного пользователя";
-            menuBlockAvatar.appendChild(menuPictureMargin);
-
-            menuBlockAdd.className = "menu-block-add";
-            menuPictureMarginAvatar.src = "./pictures/menu/add.png";
-            menuPictureMarginAvatar.className = "menu-picture-margin";
-            menuPictureMarginAvatar.alt = "Добавить пост";
-            menuBlockAdd.appendChild(menuPictureMarginAvatar);
-
             let menu = document.querySelector(".menu");
-            menu.appendChild(menuBlockPictureExit);
-            menu.appendChild(menuBlockPicture);
-            menu.appendChild(menuBlockAvatar);
-            menu.appendChild(menuBlockAdd);
+            menu.innerHTML = `
+            <div class="menu-block-picture"><img src="./pictures/menu/exit.png" class="menu-picture" alt="Выход"></div>
+            <div class="menu-block-picture"><img src="./pictures/menu/home.png" class="menu-picture" alt="На главную"></div>
+            <div class="menu-block-avatar"><img src="./pictures/menu/mainPhoto.png" class="menu-picture-margin" title="${ApplicationModel.user_authorized}" alt="Ава авторизованного пользователя"></div>
+            <div class="menu-block-add"><img src="./pictures/menu/add.png" class="menu-picture-margin" alt="Добавить пост"></div>
+            `
         },
 
         createMenuNotForUser: function () {
-            let menuEnter = document.createElement("div");
-            let menuEnterPicture = document.createElement("img");
-
-            menuEnter.className = "menu-block-add";
-            menuEnterPicture.src = "./pictures/menu/exit.png";
-            menuEnterPicture.className = "menu-picture";
-            menuEnterPicture.alt = "Войти";
-            menuEnter.appendChild(menuEnterPicture);
-
             let menu = document.querySelector(".menu");
-            menu.appendChild(menuEnterPicture);
-        },
-
-        fillMapHash: function () {
-            for(let i = 0; i < realizationOfFunctional.photoPosts.length; i++){
-                realizationOfFunctional.addHashTagsInMapHash(realizationOfFunctional.photoPosts[i]);
-            }
+            menu.innerHTML = `<img src="./pictures/menu/exit.png" class="menu-picture" alt="Войти">`
         },
 
         propHash: function () {
             //here we're printing the most popular hashtags (we get 4 the most popular)
-            realizationOfFunctional.mapHash.sort(compareHash);
+            ApplicationModel.mapHash.sort(compareHash);
             let proposition = document.querySelectorAll("option");
             for (let i = 0; i < 4; i++) {
-                proposition[i + 1].innerText = realizationOfFunctional.mapHash[i].word;
+                proposition[i + 1].innerText = ApplicationModel.mapHash[i].word;
             }
         }
     }
 }();
 
-if (realizationOfFunctional.user_authorized === null) {
-    VisualFunctions.createMenuNotForUser();
+if (ApplicationModel.user_authorized === null) {
+    ViewModule.createMenuNotForUser();
 } else {
-    VisualFunctions.createMenuForUser();
+    ViewModule.createMenuForUser();
 }
 
-VisualFunctions.printOnScreen(realizationOfFunctional.begOfVisiblePosts, realizationOfFunctional.begOfVisiblePosts + 10);
+ViewModule.printOnScreen(ApplicationModel.begOfVisiblePosts, ApplicationModel.begOfVisiblePosts + 10);
+
 
 function addPhotoPost(post){
-    if(realizationOfFunctional.addPhotoPost(post)){
-        VisualFunctions.printOnScreen(realizationOfFunctional.begOfVisiblePosts, realizationOfFunctional.begOfVisiblePosts +  10);
+    if(ApplicationModel.addPhotoPost(post)){
+        ViewModule.printOnScreen(ApplicationModel.begOfVisiblePosts, ApplicationModel.begOfVisiblePosts +  10);
     }
 }
 
 function deletePhotoPost(id){
-    let post = realizationOfFunctional.getPhotoPost(id);
-    if(realizationOfFunctional.removePhotoPost(post.id)){
-        VisualFunctions.deleteDomPhotoPost(post);
+    let post = ApplicationModel.getPhotoPost(id);
+    if(ApplicationModel.removePhotoPost(post.id)){
+        ViewModule.deleteDomPhotoPost(post);
     }
 }
 
 function editPhotoPost(idOLd, postNew){
-    let postOld = realizationOfFunctional.getPhotoPost(idOLd);
-    if(realizationOfFunctional.editPost(postOld.id, postNew)){
-        VisualFunctions.editDomPhotoPost(postOld, postNew);
+    let postOld = ApplicationModel.getPhotoPost(idOLd);
+    if(ApplicationModel.editPost(postOld.id, postNew)){
+        ViewModule.editDomPhotoPost(postOld, postNew);
     }
 }
 
-VisualFunctions.fillMapHash();
-VisualFunctions.propHash();
+ApplicationModel.fillMapHash();
+ViewModule.propHash();

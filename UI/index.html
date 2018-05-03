@@ -5,33 +5,92 @@
     <title>Aperture</title>
     <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
-<header>
-    <img src="./pictures/logo/apertureText.png" alt = "Aperture" class ="logoImg">
-</header>
-<!--block of filters-->
-<div class ="filters">
-    <div class="filter-blocks"><label>Логин: <input class ="filter-input" type = "text"  name = "firstname" id = "login"> </label> </div>
-    <div class="filter-blocks"><label>Хэштег: <input class ="filter-input" type = "text"  name = "firstname" id = "hash"> </label> </div>
-    <div class="filter-blocks"><label>Дата: <input class ="filter-input" type = "text"  name = "firstname" id = "data"> </label> </div>
-    <select class="filter-blocks" name = "Популярные хэштеги" title="Популярные хэштеги" size="1">
+<div id="error">
+    <p>ERROR</p>
+    <p id="textError"></p>
+</div>
+<div class="editFormPost" id="editFormPostId">
+    <div id ="editPhotoDrop">
+        <p> Выберите новую картинку.</p>
+        <div id="galleryEdit"></div>
+    </div>
+    <label class="descriptionAdding">Описание: <input type="text" class="inputAddingDescr" id="iptDscrEdit"></label>
+    <label class="descriptionAdding">Хэштеги: <input type="text" class="inputAddingHashtags" id="iptHashtagsEdit"></label>
+    <select class="addingHashtags" name="Популярные хэштеги" title="Популярные хэштеги" size="1" id ="selectEdit">
         <option disabled> Выберите популярный хэштег</option>
+        <option value =""></option>
         <option>Закат</option>
         <option>Рассвет</option>
         <option>Солнце</option>
         <option>Луна</option>
     </select>
-    <div class="filters-picture"></div>
+    <p class="descriptionAdding" id ="userEdit">Пользователь: </p>
+    <p class="descriptionAdding" id ="dataEdit">Дата: </p>
+    <img src="./pictures/menu/add.png" id="editFormAdd" class="menu-picture-margin" alt="Добавить пост">
 </div>
-<div class="posts">
+
+<div class="formAddingPost" id="formAddPost">
+    <div id ="addPhotoDrop">
+        <p> Переместите сюда файл.</p>
+        <!--<input type="file" id="loaderFileStand" multiple accept="image/*" onchange="handleFiles(this.files)">-->
+        <div id="gallery"></div>
+    </div>
+    <label class="descriptionAdding">Описание: <input type="text" class="inputAddingDescr" id="iptDscr"></label>
+    <label class="descriptionAdding">Хэштеги: <input type="text" class="inputAddingHashtags" id="iptHashtags"></label>
+    <select class="addingHashtags" name="Популярные хэштеги" title="Популярные хэштеги" size="1" id ="selectAdd">
+        <option disabled> Выберите популярный хэштег</option>
+        <option value =""></option>
+        <option>Закат</option>
+        <option>Рассвет</option>
+        <option>Солнце</option>
+        <option>Луна</option>
+    </select>
+    <p class="descriptionAdding" id ="userAdding">Пользователь: </p>
+    <p class="descriptionAdding" id ="dataAdding">Дата: </p>
+    <img src="./pictures/menu/add.png" id="addingFormAdd" class="menu-picture-margin" alt="Добавить пост">
 </div>
-<div class ="downloadMore"> <img src="./pictures/downloadYet.png" class ="downloadMore" alt ="Загрузить еще"></div>
-<div class ="menu">
- </div>
-<footer>
-    Aperture, Адерейко, 6 гр, 2к, 19.02, aadereiko@gmail.com
-</footer>
-<script src="scrypt.js"></script>
+<div class="grayBackground" id="grayBckd"></div>
+<div class="formAuthorization" id="formAuth">
+    <img src="./pictures/authorization/logoWithAuth.png" alt="Лого" class="authLogo">
+    <div class="authInputes">
+        <p class="pAuth">Авторизация</p>
+        <div class="inpDivAuth"><input class="inputAuth" type="text" value="Логин" id="logAuth"></div>
+        <div class="inpDivAuth"><input class="inputAuth" type="text" value="Пароль" id="passAuth"></div>
+        <button class="enterBtn" id="loginBtn">Вход</button>
+    </div>
+</div>
+<div>
+    <header>
+        <img src="./pictures/logo/apertureText.png" alt="Aperture" class="logoImg">
+    </header>
+    <!--block of filters-->
+    <div class="filters">
+        <div class="filter-blocks"><label>Логин: <input class="filter-input" type="text" name="firstname" id="login">
+        </label></div>
+        <div class="filter-blocks"><label>Хэштеги: <input class="filter-input" type="text" name="firstname" id="hash">
+        </label></div>
+        <div class="filter-blocks"><label>Дата: <input class="filter-input" type="text" name="firstname" id="date">
+        </label></div>
+        <select class="filter-blocks" name="Популярные хэштеги" title="Популярные хэштеги" size="1" id = "selectFilter">
+            <option disabled> Выберите популярный хэштег</option>
+            <option value =""></option>
+            <option>Закат</option>
+            <option>Рассвет</option>
+            <option>Солнце</option>
+            <option>Луна</option>
+        </select>
+        <div class="filters-picture" id="filtersPicture"></div>
+    </div>
+    <div class="posts">
+    </div>
+    <div class="downloadMore" id="downMore"><img src="./pictures/downloadYet.png" class="downloadMore" alt="Загрузить еще"></div>
+    <div class="menu" id="menu">
+        <footer>
+            Aperture, Адерейко, 6 гр, 2к, 19.02, aadereiko@gmail.com
+        </footer>
+        <script src="scrypt.js"></script>
+    </div>
+</div>
 </body>
 </html>

@@ -1,237 +1,25 @@
 "use strict";
 
-let ApplicationModel  = function () {
+let ApplicationModel = function () {
     function compareDates(a, b) {
         return b.createdAt - a.createdAt;
     }
+    function writeInLocalStoragePhotoPosts(){
+        localStorage.setItem('photoPosts', JSON.stringify(ApplicationModel.photoPosts));
+    }
 
     return {
-        user_authorized: null,
+        userAuthorized: null,
         mapHash: [],
-        photoPosts: [
-        {
-            id: '1',
-            description: 'красота!',
-            createdAt: new Date(2016, 1, 29, 14, 2, 21),
-            author: 'Djadka.by',
-            authorPhoto: './pictures/menu/mainPhoto.png',
-            photoLink: 'http://i.artfile.ru/1920x1080_663213_%5Bwww.ArtFile.ru%5D.jpg',
-            hashtags: ['природа', 'пейзаж', '1', '2', '3434123413241323123213123123'],
-            likes: ['aadereiko', 'taxi', 'djadka.by'],
-            deleted: false
-        },
-        {
-            id: '2',
-            description: 'В горах',
-            createdAt: new Date(2016, 2, 26, 15, 3, 41),
-            author: 'aadereiko',
-            authorPhoto: './pictures/post/post1/avaOther.png',
-            photoLink: 'https://s1.1zoom.ru/big0/81/Russia_Mountains_Lake_469922.jpg',
-            hashtags: ['природа', 'пейзаж', 'горы'],
-            likes: ['aadereiko', 'arina'],
-            deleted: false
-        },
-        {
-            id: '3',
-            description: 'Вода',
-            createdAt: new Date(),
-            author: 'aadereiko',
-
-            authorPhoto: './pictures/post/post1/avaOther.png',
-            photoLink: 'https://i.ytimg.com/vi/9NKyArdusj8/maxresdefault.jpg',
-            hashtags: ['вода', 'горы'],
-            likes: ['djadka.by'],
-            deleted: false
-        },
-        {
-            id: '4',
-            description: 'Дерево',
-            createdAt: new Date(),
-            author: 'aadereiko',
-            authorPhoto: './pictures/post/post1/avaOther.png',
-            photoLink: 'http://www.fonstola.ru/download.php?file=201506/1920x1200/fonstola.ru-187130.jpg',
-            hashtags: ['дерево', 'пейзаж'],
-            likes: ['aadereiko', 'taxi', 'djadka.by', 'pipi'],
-            deleted: false
-        },
-        {
-            id: '5',
-            description: 'Водопад',
-            createdAt: new Date(),
-            author: 'Djadka.by',
-            authorPhoto: './pictures/menu/mainPhoto.png',
-            photoLink: 'https://s1.1zoom.ru/big3/137/371625-svetik.jpg',
-            hashtags: ['водопад', 'пейзаж'],
-            likes: ['aadereiko', 'taxi', 'djadka.by', 'taxi', 'remember'],
-            deleted: false
-        },
-        {
-            id: '6',
-            description: 'На лугу',
-            createdAt: new Date(),
-            author: 'Djadka.by',
-            authorPhoto: './pictures/menu/mainPhoto.png',
-            photoLink: 'http://desktopwallpapers.org.ua/pic/201211/2560x1600/desktopwallpapers.org.ua-21746.jpg',
-            hashtags: ['луг', 'лужок'],
-            likes: ['aadereiko'],
-            deleted: false
-        },
-        {
-            id: '7',
-            description: 'Цветы',
-            createdAt: new Date(),
-            author: 'Djadka.by',
-            authorPhoto: './pictures/menu/mainPhoto.png',
-            photoLink: 'https://s1.1zoom.ru/big0/328/252677-svetik.jpg',
-            hashtags: ['цветы'],
-            likes: ['mashinka', 'autos'],
-            deleted: false
-        },
-        {
-            id: '8',
-            description: 'Одуванчики',
-            createdAt: new Date(),
-            author: 'Djadka.by',
-            authorPhoto: './pictures/menu/mainPhoto.png',
-            photoLink: 'https://storge.pic2.me/c/1360x800/981/584872400b299.jpg',
-            hashtags: ['Одуваны', 'Машина'],
-            likes: ['bojenka'],
-            deleted: false
-        },
-        {
-            id: '9',
-            description: 'F430',
-            createdAt: new Date(),
-            author: 'aadereiko',
-            authorPhoto: './pictures/post/post1/avaOther.png',
-            photoLink: 'https://mosautoshina.ru/i/auto/ferrari_f430_2008.jpg',
-            hashtags: ['Ferrari', 'F430'],
-            likes: ['tachki', 'chai', 'ss'],
-            deleted: false
-        },
-        {
-            id: '10',
-            description: 'Ламборгини',
-            createdAt: new Date(),
-            author: 'cars',
-            authorPhoto: 'http://skachat-kartinki.ru/img/picture/Oct/04/417e63b46e74be245aca2a969133b567/4.jpg',
-            photoLink: 'https://w-dog.ru/wallpapers/1/4/497672376362454/lamborghini-aventador-lp700-4-avto-superkar-doroga-zelnyj-green-nebo.jpg',
-            hashtags: ['Машины'],
-            likes: ['cars', 'taxi'],
-            deleted: false
-        },
-        {
-            id: '11',
-            description: '59',
-            createdAt: new Date(),
-            author: 'cars',
-            authorPhoto: 'http://skachat-kartinki.ru/img/picture/Oct/04/417e63b46e74be245aca2a969133b567/4.jpg',
-            photoLink: 'http://skachat-kartinki.ru/img/picture/Oct/04/417e63b46e74be245aca2a969133b567/4.jpg',
-            hashtags: ['59'],
-            likes: ['aadereiko', 'taxi', 'djadka.by', 'egor'],
-            deleted: false
-        },
-        {
-            id: '12',
-            description: 'Lamborghini',
-            createdAt: new Date(),
-            author: 'Djadka.by',
-            authorPhoto: './pictures/menu/mainPhoto.png',
-            photoLink: 'https://autowall.ru/wallpapers/original/29402.jpg',
-            hashtags: ['Одуваны', 'Детки', 'Lamborghini'],
-            likes: ['pacani', 'djadka.by'],
-            deleted: false
-        },
-        {
-            id: '13',
-            description: 'Тренажер',
-            createdAt: new Date(),
-            author: 'aadereiko',
-            authorPhoto: './pictures/post/post1/avaOther.png',
-            photoLink: 'http://lolopepe.kg/wp-content/uploads/2017/08/body_src_1021.jpg',
-            hashtags: ['качаться', 'лето', 'Одуваны', 'Детки'],
-            likes: [],
-            deleted: false
-        },
-        {
-            id: '14',
-            description: 'Кач',
-            createdAt: new Date(),
-            author: 'trener',
-            authorPhoto: 'https://onsport.by/upload/resize_cache/iblock/23a/540_350_187651f930238ae42a94b52b10d934176/23a8370963af42ff33de0d9ef78f6c60.jpg',
-            photoLink: 'https://onsport.by/upload/resize_cache/iblock/23a/540_350_187651f930238ae42a94b52b10d934176/23a8370963af42ff33de0d9ef78f6c60.jpg',
-            hashtags: ['тренажер'],
-            likes: ['kekochka', 'life', 'sport'],
-            deleted: false
-        },
-        {
-            id: '15',
-            description: 'Зал',
-            createdAt: new Date(),
-            author: 'trener',
-            authorPhoto: 'https://onsport.by/upload/resize_cache/iblock/23a/540_350_187651f930238ae42a94b52b10d934176/23a8370963af42ff33de0d9ef78f6c60.jpg',
-            photoLink: 'https://onsport.by/upload/resize_cache/iblock/fcf/540_350_187651f930238ae42a94b52b10d934176/fcf7286441ab8fd5ed140c65282a35ec.png',
-            hashtags: ['ВЗале', 'Сидим'],
-            likes: ['brother', 'syster'],
-            deleted: false
-        },
-        {
-            id: '16',
-            description: 'crupo7',
-            createdAt: new Date(),
-            author: 'films',
-            authorPhoto: 'https://im0-tub-by.yandex.net/i?id=3979f00131c7422720695dcb01d2dce2&n=13',
-            photoLink: 'https://static.kinoafisha.info/k/movie_posters/1920x1080/upload/movie_posters/7/8/9/8143987/804fe6d00e2cfb98841de815d5a3fce0.jpg',
-            hashtags: ['Antonio'],
-            likes: ['aadereiko'],
-            deleted: false
-        },
-        {
-            id: '17',
-            description: 'Найди меня',
-            createdAt: new Date(),
-            author: 'films',
-            authorPhoto: 'https://im0-tub-by.yandex.net/i?id=3979f00131c7422720695dcb01d2dce2&n=13',
-            photoLink: 'https://www.kinocitymall.ru/images/posters/fdad9ac238d6034e.jpg',
-            hashtags: ['Бумажные города'],
-            likes: ['lubov', 'zhizhn'],
-            deleted: false
-        },
-        {
-            id: '18',
-            description: 'Без компромиссов',
-            createdAt: new Date(),
-            author: 'films',
-            authorPhoto: 'https://im0-tub-by.yandex.net/i?id=3979f00131c7422720695dcb01d2dce2&n=13',
-            photoLink: 'http://glass-kino.ucoz.ru/_nw/15/46383748.jpg',
-            hashtags: ['стэтхем'],
-            likes: [],
-            deleted: false
-        },
-        {
-            id: '19',
-            description: 'Смертельная гонка',
-            createdAt: new Date(),
-            author: 'cars',
-            authorPhoto: 'http://skachat-kartinki.ru/img/picture/Oct/04/417e63b46e74be245aca2a969133b567/4.jpg',
-            photoLink: 'https://paris-life.info/wp-content/uploads/2016/11/eifeel-tower-paris-1068x712.jpg',
-            hashtags: ['гонка'],
-            likes: ['shmonka', 'dashka'],
-            deleted: false
-        },
-        {
-            id: '20',
-            description: 'Лучшее во мне',
-            createdAt: new Date(),
-            author: 'films',
-            authorPhoto: 'https://im0-tub-by.yandex.net/i?id=3979f00131c7422720695dcb01d2dce2&n=13',
-            photoLink: 'https://disput.azstatic.com/uploads/monthly_2017_06/596362.jpg.80fcd483cdbed4a9572f79ce745fd097.jpg',
-            hashtags: ['InMe'],
-            likes: ['arts', 'draws', 'films'],
-            deleted: false
-        }
-    ],
+        users: [],
+        photoPosts: [],
         begOfVisiblePosts: 0,
+
+        //we're using compareHash to sort hashMap to get the most popular posts
+
+        compareHash: function (a, b) {
+            return b.count - a.count;
+        },
 
         addHashTagsInMapHash: function (post) {
             let indexOfFoundHashtag;
@@ -265,33 +53,38 @@ let ApplicationModel  = function () {
                 }
 
                 if (filterConfing.createdAt) {
+                    let date = new Date(filterConfing.createdAt.replace(/(\d+)[-.,;: ](\d+)[-.,;: ](\d+)/, '$3/$2/$1'))
                     result = result.filter(function (post) {
-                        return post.createdAt >= filterConfing.createdAt;
+                        return post.createdAt >= date;
                     });
                 }
 
                 if (filterConfing.hashtags && filterConfing.hashtags.length !== 0) {
-                    result = result.filter(function (post) {
-                        for (let i = 0; i < filterConfing.hashtags.length; i++) {
-                            let condition = post.hashtags.some(function (tag) {
-                                return tag === filterConfing.hashtags[i];
-                            });
-                            if (!condition) {
-                                return false;
-                            }
-                        }
-                        return true;
-                    })
+                    let hashtags = filterConfing.hashtags;
+                    result = result.filter((post) =>
+                        hashtags.every((tag) => (post.hashtags || []).includes(tag))
+                    );
                 }
             }
 
-            if(result.length === 0){
+            if (result.length === 0) {
                 return [];
             }
 
             result.sort(compareDates);
 
             return result.slice(skip, skip + top);
+        },
+
+        getUrlAva: function (name) {
+            let index = ApplicationModel.users.map((elem) => {
+                return elem.author;
+            }).indexOf(name);
+            if (index === -1) {
+                return 0
+            } else {
+                return ApplicationModel.users[index].authorPhoto;
+            }
         },
 
         getPhotoPost: function (id) {
@@ -342,6 +135,7 @@ let ApplicationModel  = function () {
             if (ApplicationModel.validatePhotoPost(post)) {
                 ApplicationModel.photoPosts.push(post);
                 ApplicationModel.addHashTagsInMapHash(post);
+                writeInLocalStoragePhotoPosts();
                 return true;
             }
             return false;
@@ -349,9 +143,10 @@ let ApplicationModel  = function () {
 
         removePhotoPost: function (id) {
             let post = ApplicationModel.getPhotoPost(id);
-            if(post) {
+            if (post) {
                 post.deleted = true;
             }
+            writeInLocalStoragePhotoPosts();
             return !!post;
         },
 
@@ -375,51 +170,71 @@ let ApplicationModel  = function () {
         },
 
         fillMapHash: function () {
-            for(let i = 0; i < ApplicationModel.photoPosts.length; i++){
+            for (let i = 0; i < ApplicationModel.photoPosts.length; i++) {
                 ApplicationModel.addHashTagsInMapHash(ApplicationModel.photoPosts[i]);
             }
+        },
+
+        fillInformation: function(){
+            ApplicationModel.photoPosts = JSON.parse(localStorage.getItem('photoPosts'), (key, value)=>{
+                if(key === 'createdAt'){
+                    return new Date(value);
+                }
+                return value;
+            });
+            ApplicationModel.users = JSON.parse(localStorage.getItem('users'));
+            ApplicationModel.userAuthorized = JSON.parse(localStorage.getItem('userAuthorized'));
         }
+
+        //this function has added our posts and users in LocalStorage
+        // putPostsAnsUsersInLocalStorage(){
+        //     let str = JSON.stringify(ApplicationModel.photoPosts);
+        //     localStorage.setItem('photoPosts', str);
+        //     localStorage.setItem('users', JSON.stringify(ApplicationModel.users));
+        // }
     }
 }();
 
-let ViewModule = function() {
-    //we're using compareHash to sort hashMap to get the most popular posts
-    function compareHash(a, b) {
-        return b.count - a.count;
-    }
-
+let ViewModule = function () {
     let containerPosts = document.querySelector('.posts');
 
     return {
         printOnScreen: function (skip, top, filterConfing) {
             let arrPosts = document.querySelectorAll(".post");
-            arrPosts.forEach((post)=>{
+            arrPosts.forEach((post) => {
                 post.remove();
-            })
+            });
             let arrForPrint = ApplicationModel.getPhotoPosts(skip, top, filterConfing);
 
-            arrForPrint.forEach((post)=> {
+            arrForPrint.forEach((post) => {
                 ViewModule.addDomPhotoPost(post);
             });
-        },
-        makeStringForHashtags: function (hashtags) {
-            if (hashtags.length !== 0) {
-                let resultString = "";
-                for (let i = 0; i < hashtags.length; i++) {
-                    resultString += "#" + hashtags[i];
-                }
-                return resultString;
+
+            if(ApplicationModel.userAuthorized !== null) {
+                EventsModule.initializeLikeButtons();
+                EventsModule.initializeButtonsPost();
             }
-            return 0;
+        },
+
+        loginView: function (name) {
+            ApplicationModel.userAuthorized = name || null;
+            if (name) {
+                document.getElementById("menu").innerHTML = '';
+                ViewModule.createMenuForUser();
+            }
+        },
+
+        makeStringForHashtags: function (hashtags) {
+            return (hashtags || []).map((ht) => '#' + ht).join(' ');
         },
 
         addDomPhotoPost: function (post) {
-            let classForLikes;
-            if(ApplicationModel.user_authorized === null){
-                classForLikes = "likePostUnAuth";
-            } else {
-                classForLikes = "likePost";
-            }
+            let imgForLike;
+                if(ApplicationModel.userAuthorized !== null && post.likes.indexOf(ApplicationModel.userAuthorized) !== -1) {
+                    imgForLike = './pictures/post/like.png';
+                } else {
+                    imgForLike = './pictures/post/NotPressed.png';
+                }
             let newDiv = document.createElement("div");
             newDiv.className = "post";
             newDiv.id = post.id;
@@ -429,15 +244,15 @@ let ViewModule = function() {
                     <p class="dataUser">${post.createdAt.getDate()}.${post.createdAt.getMonth()}.${post.createdAt.getFullYear()}</p>
                     <p class="dataUser">${post.createdAt.getHours()}:${post.createdAt.getUTCMinutes()}:${post.createdAt.getSeconds()}</p>
                     <p class="dataUser"><img alt="Фото поста" src="${post.photoLink}" class="photoPost"></p>
-                    <img src="./pictures/post/NotPressed.png" alt="Лайк" class="${classForLikes}">
-                    <p class="textLike">${post.likes.length.toString()}</p>
+                    <img src="${imgForLike}" alt="Лайк" class="likePost" id="like-${post.id}">
+                    <p class="textLike" id="textLike-${post.id}">${post.likes.length.toString()}</p>
                     <p class="textComment">${post.description}</p>
                     <p class="textHashTag">${ViewModule.makeStringForHashtags(post.hashtags) || 0}</p>
             `;
-            if(post.author === ApplicationModel.user_authorized){
+            if (post.author === ApplicationModel.userAuthorized) {
                 newDiv.innerHTML += `
-                    <img src="./pictures/post/edit.png" class="editPost" alt="Изменить пост">
-                    <img src="./pictures/post/delete.png" class="editPost" alt="Удалить пост">
+                    <img src="./pictures/post/edit.png" class="editPost" alt="Изменить пост" id="edit-${post.id}">
+                    <img src="./pictures/post/delete.png" class="deletePost" alt="Удалить пост" id="delete-${post.id}">
             `
             }
             containerPosts.appendChild(newDiv);
@@ -471,57 +286,438 @@ let ViewModule = function() {
         createMenuForUser: function () {
             let menu = document.querySelector(".menu");
             menu.innerHTML = `
-            <div class="menu-block-picture"><img src="./pictures/menu/exit.png" class="menu-picture" alt="Выход"></div>
-            <div class="menu-block-picture"><img src="./pictures/menu/home.png" class="menu-picture" alt="На главную"></div>
-            <div class="menu-block-avatar"><img src="./pictures/menu/mainPhoto.png" class="menu-picture-margin" title="${ApplicationModel.user_authorized}" alt="Ава авторизованного пользователя"></div>
-            <div class="menu-block-add"><img src="./pictures/menu/add.png" class="menu-picture-margin" alt="Добавить пост"></div>
-            `
+            <div class="menu-block-picture"><img src="./pictures/menu/exit.png" class="menu-picture" alt="Выход" id="exitBtn"></div>
+            <div class="menu-block-picture"><img src="./pictures/menu/home.png" class="menu-picture" alt="На главную" id="home"></div>
+            <div class="menu-block-avatar"><img src="${ApplicationModel.getUrlAva(ApplicationModel.userAuthorized)}" class="menu-picture-margin" title="${ApplicationModel.userAuthorized}" alt="Ава авторизованного пользователя"></div>
+            <div class="menu-block-add"><img src="./pictures/menu/add.png" id ="add" class="menu-picture-margin" alt="Добавить пост"></div>            
+`
         },
 
         createMenuNotForUser: function () {
             let menu = document.querySelector(".menu");
-            menu.innerHTML = `<img src="./pictures/menu/exit.png" class="menu-picture" alt="Войти">`
+            menu.innerHTML = `<img src="./pictures/menu/exit.png" class="menu-picture" alt="Войти" id="enterMenu">`
         },
 
-        propHash: function () {
+        propHash: function (name) {
             //here we're printing the most popular hashtags (we get 4 the most popular)
-            ApplicationModel.mapHash.sort(compareHash);
-            let proposition = document.querySelectorAll("option");
+            ApplicationModel.mapHash.sort(ApplicationModel.compareHash);
+            let sF = document.getElementById(name);
             for (let i = 0; i < 4; i++) {
-                proposition[i + 1].innerText = ApplicationModel.mapHash[i].word;
+                sF.children[i + 2].innerText = ApplicationModel.mapHash[i].word;
             }
         }
     }
 }();
 
-if (ApplicationModel.user_authorized === null) {
+let EventsModule = function () {
+    let inputLogin = document.getElementById('login');
+    let inputData = document.getElementById('date');
+    let inputHashtag = document.getElementById('hash');
+    let inputLoginAuth = document.getElementById('logAuth');
+    let inputPassword = document.getElementById('passAuth');
+    let grayBackground = document.getElementById('grayBckd');
+    let formAuth = document.getElementById('formAuth');
+    let formAdding = document.getElementById('formAddPost');
+    let dropArea = document.getElementById('addPhotoDrop');
+    let dropAreaEdit = document.getElementById('editPhotoDrop');
+    let userAdd = document.getElementById('userAdding');
+    let dataAdd = document.getElementById('dataAdding');
+    let hashAdd = document.getElementById('iptHashtags');
+    let selectFltr = document.getElementById('selectFilter');
+    let selectAdd = document.getElementById('selectAdd');
+    let gallery = document.getElementById('gallery');
+    let iptDscr = document.getElementById('iptDscr');
+    let formEdit = document.getElementById('editFormPostId');
+    let userEdit = document.getElementById('userEdit');
+    let dataEdit = document.getElementById('dataEdit');
+    let hashEdit = document.getElementById('iptHashtagsEdit');
+    let selectEdit = document.getElementById('selectEdit');
+    let iptHashtagsEdit = document.getElementById('iptHashtagsEdit');
+    let iptDscrEdit = document.getElementById('iptDscrEdit');
+    let galleryEdit = document.getElementById('galleryEdit');
+    let error = document.getElementById('error');
+    let textError = document.getElementById('textError');
+    let photoLnkEdit;
+    let photoLnk;
+    let edittingPostId;
+    let indexEditPost;
+
+    function highlight(e) {
+        dropArea.classList.add('highlight')
+    }
+
+    function unHighLight(e) {
+        dropArea.classList.remove('highlight')
+    }
+
+    function handleFiles(files) {
+        files = [...files];
+        files.forEach(uploadFile);
+        files.forEach(previewFile);
+    }
+
+    function handleFilesEdit(files) {
+        files = [...files];
+        files.forEach(uploadFileEdit);
+        files.forEach(previewFileEdit);
+    }
+
+    function previewFileEdit(file) {
+        let reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onloadend = function () {
+            let img = document.createElement('img');
+            img.src = reader.result;
+            galleryEdit.innerHTML = '';
+            galleryEdit.appendChild(img);
+            photoLnkEdit = reader.result;
+        }
+    }
+
+    function uploadFileEdit(file) {
+        // let url = 'ВАШ URL ДЛЯ ЗАГРУЗКИ ФАЙЛОВ'
+        //let formData = new FormData()
+        //formData.append('file', file)
+        // fetch(url, {
+        //     method: 'POST',
+        //     body: formData
+        // })
+    }
+
+    function handleDrop(e) {
+        let dt = e.dataTransfer;
+        let files = dt.files;
+        if(files.length === 1){
+            handleFiles(files);
+        }
+        else{
+
+        }
+    }
+
+    function handleDropEdit(e) {
+        let dt = e.dataTransfer;
+        let files = dt.files;
+        if(files.length === 1){
+            handleFilesEdit(files);
+        }
+        else{
+
+        }
+    }
+
+    function uploadFile(file) {
+        // let url = 'ВАШ URL ДЛЯ ЗАГРУЗКИ ФАЙЛОВ'
+        //let formData = new FormData()
+        //formData.append('file', file)
+        // fetch(url, {
+        //     method: 'POST',
+        //     body: formData
+        // })
+    }
+
+    function previewFile(file) {
+        let reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onloadend = function () {
+            let img = document.createElement('img');
+            img.src = reader.result;
+            gallery.appendChild(img);
+            photoLnk = reader.result;
+        }
+    }
+
+    function preventDefaults (e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+
+    return {
+        filterPosts: function () {
+            let arrHashtags = [];
+            if(inputHashtag.value) {
+                arrHashtags = inputHashtag.value.replace('#', ' ').trim().split(/[#, ]+/);
+            }
+            //user didn't choose the empty string
+            if(selectFltr.selectedIndex !== 1){
+                //user didn't choose the equal hashatgs
+                if(arrHashtags.indexOf(selectFltr.options[selectFltr.selectedIndex].value) === -1) {
+                    arrHashtags.push(selectFltr.options[selectFltr.selectedIndex].value);
+                }
+            }
+            ViewModule.printOnScreen(0, 30,
+                {
+                    createdAt: 0 || inputData.value,
+                    hashtags:  arrHashtags.length === 0 ? 0 : arrHashtags,
+                    author: (0 || inputLogin.value)
+                });
+        },
+
+        getMorePosts: function () {
+            ApplicationModel.begOfVisiblePosts += 10;
+            ViewModule.printOnScreen(ApplicationModel.begOfVisiblePosts, ApplicationModel.begOfVisiblePosts + 10);
+        },
+
+        closeForms: function () {
+            grayBackground.style.display = 'none';
+            formAuth.style.display = 'none';
+            formAdding.style.display = 'none';
+            formEdit.style.display = 'none';
+            error.style.display = 'none';
+        },
+
+        enter: function () {
+            grayBackground.style.display = 'block';
+            formAuth.style.display = 'block';
+        },
+
+        addPost: function () {
+            iptDscr.value = '';
+            hashAdd.value = '';
+            userAdd.innerText = 'Пользователь: ';
+            dataAdd.innerText = 'Дата: ';
+            gallery.innerHTML = '';
+            ViewModule.propHash('selectAdd');
+            grayBackground.style.display = 'block';
+            formAdding.style.display = 'block';
+            userAdd.innerText += ApplicationModel.userAuthorized;
+            dataAdd.innerText += new Date();
+        },
+
+        editPost: function(e) {
+            iptDscrEdit.value = '';
+            iptHashtagsEdit.value = '';
+            userEdit.innerText = 'Пользователь: ';
+            dataEdit.innerText = 'Дата: ';
+            galleryEdit.innerHTML = '';
+            edittingPostId = e.target.id.substring(5);
+            let imgEdit = document.createElement('img');
+            indexEditPost = ApplicationModel.photoPosts.map((post)=>{
+                return post.id;
+            }).indexOf(edittingPostId);
+            grayBackground.style.display = 'block';
+            formEdit.style.display = 'block';
+            userEdit.innerText += ApplicationModel.userAuthorized;
+            dataEdit.innerText += ApplicationModel.photoPosts[indexEditPost].createdAt;
+            iptHashtagsEdit.value = ViewModule.makeStringForHashtags(ApplicationModel.photoPosts[indexEditPost].hashtags);
+            iptDscrEdit.value = ApplicationModel.photoPosts[indexEditPost].description;
+            imgEdit.src = ApplicationModel.photoPosts[indexEditPost].photoLink;
+            galleryEdit.appendChild(imgEdit);
+        },
+
+        pressLike: function(e){
+            if(ApplicationModel.userAuthorized !== null) {
+                let indexToAction = ApplicationModel.photoPosts.map((post) => {
+                    return post.id;
+                }).indexOf(e.target.id.substr(5));
+                if (indexToAction !== -1) {
+                    let indexLike =  ApplicationModel.photoPosts[indexToAction].likes.indexOf(ApplicationModel.userAuthorized);
+                    if (indexLike === -1){
+                        ApplicationModel.photoPosts[indexToAction].likes.push(ApplicationModel.userAuthorized);
+                        localStorage.setItem('photoPosts', JSON.stringify(ApplicationModel.photoPosts));
+                        document.getElementById(e.target.id.replace('like', 'textLike')).innerText = ApplicationModel.photoPosts[indexToAction].likes.length;
+                        document.getElementById(e.target.id).src = './pictures/post/like.png';
+                    } else {
+                        ApplicationModel.photoPosts[indexToAction].likes.splice(indexLike, 1);
+                        document.getElementById(e.target.id).src = './pictures/post/NotPressed.png';
+                        document.getElementById(e.target.id.replace('like', 'textLike')).innerText = ApplicationModel.photoPosts[indexToAction].likes.length;
+                        localStorage.setItem('photoPosts', JSON.stringify(ApplicationModel.photoPosts));
+                    }
+                }
+
+            }
+        },
+
+        logIn: function () {
+            let name = inputLoginAuth.value;
+            let pass = inputPassword.value;
+
+            if (pass && name) {
+                let index = ApplicationModel.users.map((elem) => {
+                    return elem.author;
+                }).indexOf(name);
+                if (index !== -1) {
+                    if (ApplicationModel.users[index].password === pass) {
+                        ViewModule.loginView(name);
+                        document.getElementById('exitBtn').addEventListener('click', EventsModule.unAuthorization);
+                        document.getElementById('add').addEventListener('click', EventsModule.addPost);
+                        document.getElementById('home').addEventListener('click', EventsModule.homePosts);
+                        localStorage.setItem('userAuthorized', JSON.stringify(ApplicationModel.userAuthorized));
+                        EventsModule.closeForms();
+                        ViewModule.printOnScreen(ApplicationModel.begOfVisiblePosts, ApplicationModel.begOfVisiblePosts + 10);
+                        inputLoginAuth.value = 'Логин';
+                        inputPassword.value = 'Пароль';
+                        //after login we get new edit buttons
+                    } else {
+                        textError.innerText = 'Неправильный пароль';
+                        EventsModule.closeForms();
+                        grayBackground.style.display = 'block';
+                        error.style.display = 'block';
+                    }
+                }  else {
+                    textError.innerText = 'Такого пользователя не найдено';
+                    EventsModule.closeForms();
+                    grayBackground.style.display = 'block';
+                    error.style.display = 'block';
+                }
+            }
+        },
+
+        homePosts: function(){
+            ApplicationModel.begOfVisiblePosts = 0;
+            ViewModule.printOnScreen(ApplicationModel.begOfVisiblePosts, ApplicationModel.begOfVisiblePosts + 10);
+        },
+
+        unAuthorization: function () {
+            document.getElementById("menu").innerHTML = '';
+            ViewModule.createMenuNotForUser();
+            ApplicationModel.userAuthorized = null;
+            localStorage.setItem('userAuthorized', JSON.stringify(ApplicationModel.userAuthorized));
+            ViewModule.printOnScreen(ApplicationModel.begOfVisiblePosts, ApplicationModel.begOfVisiblePosts + 10);
+            document.getElementById('enterMenu').addEventListener('click', EventsModule.enter);
+        },
+
+        addingPost: function () {
+            let arrayHashtags = [];
+            if(hashAdd.value){
+                arrayHashtags = hashAdd.value.trim().split(/[,# ]+/);
+            }
+            if(selectAdd.selectedIndex !== 1){
+                if(arrayHashtags.indexOf(selectAdd.options[selectAdd.selectedIndex].value) === -1) {
+                    /*саша я тебя люблю :3 */
+                    arrayHashtags.push(selectAdd.options[selectAdd.selectedIndex].value);
+                }
+            }
+
+            ApplicationModel.begOfVisiblePosts = 0;
+            let user = {
+                id: (ApplicationModel.photoPosts.length + 1).toString(),
+                description: iptDscr.value,
+                createdAt: new Date(),
+                author: ApplicationModel.userAuthorized,
+                authorPhoto: ApplicationModel.users[ApplicationModel.users.map((user) => {
+                    return user.author;
+                }).indexOf(ApplicationModel.userAuthorized)].authorPhoto || 0,
+                photoLink: photoLnk,
+                hashtags:  arrayHashtags.length === 0 ? 0 : arrayHashtags,
+                likes: [],
+                deleted: false
+            };
+            if (ApplicationModel.addPhotoPost(user)) {
+                ViewModule.printOnScreen(ApplicationModel.begOfVisiblePosts, ApplicationModel.begOfVisiblePosts + 10);
+            } else {
+                textError.innerText = 'Неверные данные';
+                EventsModule.closeForms();
+                grayBackground.style.display = 'block';
+                error.style.display = 'block';
+
+            }
+
+            EventsModule.closeForms();
+        },
+
+        edittingPost: function() {
+            let arrayHashtags = [];
+            if (hashEdit.value) {
+                arrayHashtags = hashEdit.value.replace('#', ' ').trim().split(/[,# ]+/);
+            }
+            if (selectEdit.selectedIndex !== 1) {
+                if (arrayHashtags.indexOf(selectEdit.options[selectEdit.selectedIndex].value) === -1) {
+                    arrayHashtags.push(selectEdit.options[selectEdit.selectedIndex].value);
+                }
+            }
+            let user = {
+                id: 1,
+                description: iptDscrEdit.value,
+                author: ApplicationModel.userAuthorized,
+                authorPhoto: ApplicationModel.photoPosts[indexEditPost].authorPhoto,
+                photoLink: photoLnkEdit,
+                hashtags: arrayHashtags.length === 0 ? 0 : arrayHashtags,
+                likes: ApplicationModel.photoPosts[indexEditPost].likes,
+                deleted: false
+            };
+
+            let postOld = ApplicationModel.getPhotoPost(edittingPostId);
+            if (ApplicationModel.editPost(postOld.id, user)) {
+                ViewModule.editDomPhotoPost(postOld, user);
+                document.getElementById('edit-'+edittingPostId).addEventListener('click', EventsModule.editPost);
+                document.getElementById('delete-'+edittingPostId).addEventListener('click', EventsModule.delettingPost);
+                document.getElementById('like-'+edittingPostId).addEventListener('click', EventsModule.pressLike);
+                localStorage.setItem('photoPosts', JSON.stringify(ApplicationModel.photoPosts));
+                EventsModule.closeForms();
+            } else {
+                textError.innerText = 'Неверные данные';
+                EventsModule.closeForms();
+                grayBackground.style.display = 'block';
+                error.style.display = 'block';
+            }
+
+        },
+
+        delettingPost: function(e) {
+            let post = ApplicationModel.getPhotoPost(e.target.id.substring(7));
+            if (ApplicationModel.removePhotoPost(post.id)) {
+                ViewModule.deleteDomPhotoPost(post);
+            }
+        },
+
+        initializeLikeButtons: function(){
+            let likeButtons = document.querySelectorAll('.likePost');
+            for(let i = 0; i < likeButtons.length; i++){
+                likeButtons[i].addEventListener('click', EventsModule.pressLike);
+            }
+        },
+
+        initializeButtonsPost: function(){
+            let editButtons = document.querySelectorAll('.editPost');
+            let deleteButtons = document.querySelectorAll('.deletePost');
+            for(let i = 0; i < editButtons.length; i++){
+                editButtons[i].addEventListener('click', EventsModule.editPost);
+                deleteButtons[i].addEventListener('click', EventsModule.delettingPost);
+            }
+        },
+
+        initialization: function(){
+            document.getElementById('downMore').addEventListener('click', EventsModule.getMorePosts);
+            document.getElementById('filtersPicture').addEventListener('click', EventsModule.filterPosts);
+            document.getElementById('grayBckd').addEventListener('click', EventsModule.closeForms);
+            if(ApplicationModel.userAuthorized === null) {
+                document.getElementById('enterMenu').addEventListener('click', EventsModule.enter);
+            } else {
+                document.getElementById('exitBtn').addEventListener('click', EventsModule.unAuthorization);
+                document.getElementById('add').addEventListener('click', EventsModule.addPost);
+                document.getElementById('home').addEventListener('click', EventsModule.homePosts);
+                EventsModule.initializeButtonsPost();
+             }
+            document.getElementById('loginBtn').addEventListener('click', EventsModule.logIn);
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                dropArea.addEventListener(eventName, preventDefaults, false);
+                dropAreaEdit.addEventListener(eventName, preventDefaults, false);
+            });
+            dropArea.addEventListener('drop', handleDrop, false);
+            dropAreaEdit.addEventListener('drop', handleDropEdit, false);
+            ['dragenter', 'dragover'].forEach(eventName => {
+                dropArea.addEventListener(eventName, highlight, false);
+                dropAreaEdit.addEventListener(eventName, highlight, false);
+            });
+            ['dragleave', 'drop'].forEach(eventName => {
+                dropArea.addEventListener(eventName, unHighLight, false);
+                dropAreaEdit.addEventListener(eventName, unHighLight, false);
+            });
+            document.getElementById('addingFormAdd').addEventListener('click', EventsModule.addingPost);
+            document.getElementById('editFormAdd').addEventListener('click', EventsModule.edittingPost);
+        }
+    }
+}();
+
+ApplicationModel.fillInformation();
+ViewModule.printOnScreen(ApplicationModel.begOfVisiblePosts, ApplicationModel.begOfVisiblePosts + 10);
+if (ApplicationModel.userAuthorized === null) {
     ViewModule.createMenuNotForUser();
 } else {
     ViewModule.createMenuForUser();
 }
-
-ViewModule.printOnScreen(ApplicationModel.begOfVisiblePosts, ApplicationModel.begOfVisiblePosts + 10);
-
-
-function addPhotoPost(post){
-    if(ApplicationModel.addPhotoPost(post)){
-        ViewModule.printOnScreen(ApplicationModel.begOfVisiblePosts, ApplicationModel.begOfVisiblePosts +  10);
-    }
-}
-
-function deletePhotoPost(id){
-    let post = ApplicationModel.getPhotoPost(id);
-    if(ApplicationModel.removePhotoPost(post.id)){
-        ViewModule.deleteDomPhotoPost(post);
-    }
-}
-
-function editPhotoPost(idOLd, postNew){
-    let postOld = ApplicationModel.getPhotoPost(idOLd);
-    if(ApplicationModel.editPost(postOld.id, postNew)){
-        ViewModule.editDomPhotoPost(postOld, postNew);
-    }
-}
-
+// ApplicationModel.begOfVisiblePosts += 10;
 ApplicationModel.fillMapHash();
-ViewModule.propHash();
+ViewModule.propHash('selectFilter');
+EventsModule.initialization();

@@ -434,7 +434,7 @@ let EventsModule = function () {
         e.preventDefault();
         e.stopPropagation();
     }
-
+ 
     return {
         filterPosts: function () {
             let arrHashtags = [];

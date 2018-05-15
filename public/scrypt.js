@@ -316,13 +316,14 @@ let ViewModule = function () {
             <div class="menu-block-picture"><img src="./pictures/menu/exit.png" class="menu-picture" alt="Выход" id="exitBtn"></div>
             <div class="menu-block-picture"><img src="./pictures/menu/home.png" class="menu-picture" alt="На главную" id="home"></div>
             <div class="menu-block-avatar"><img src="${ApplicationModel.getUrlAva(ApplicationModel.userAuthorized)}" class="menu-picture-margin" title="${ApplicationModel.userAuthorized}" alt="Ава авторизованного пользователя"></div>
-            <div class="menu-block-add"><img src="./pictures/menu/add.png" id ="add" class="menu-picture-margin" alt="Добавить пост"></div>            
+            <div class="menu-block-add"><img src="./pictures/menu/add.png" id ="add" class="menu-picture-margin" alt="Добавить пост"></div> 
 `
         },
 
         createMenuNotForUser: function () {
             let menu = document.querySelector(".menu");
-            menu.innerHTML = `<img src="./pictures/menu/exit.png" class="menu-picture" alt="Войти" id="enterMenu">`
+            menu.innerHTML = `<img src="./pictures/menu/exit.png" class="menu-picture" alt="Войти" id="enterMenu">
+           `
         },
 
         propHash: function (name) {

@@ -11,7 +11,28 @@ let ApplicationModel = function () {
     return {
         userAuthorized: null,
         mapHash: [],
-        users: [],
+        users: [
+            {
+                author: "Djadka.by",
+                authorPhoto: "./pictures/menu/mainPhoto.png",
+                password: "12345678"
+            },
+            {
+                author: "cars",
+                authorPhoto: "http://skachat-kartinki.ru/img/picture/Oct/04/417e63b46e74be245aca2a969133b567/4.jpg",
+                password: "12345"
+            },
+            {
+                author: "aadereiko",
+                authorPhoto: "./pictures/post/post1/avaOther.png",
+                password: "90a12345"
+            },
+            {
+                author: "films",
+                authorPhoto: "https://im0-tub-by.yandex.net/i?id=3979f00131c7422720695dcb01d2dce2&n=13",
+                password: "90a12",
+            }
+        ],
         photoPosts: [],
         begOfVisiblePosts: 0,
 
@@ -41,6 +62,8 @@ let ApplicationModel = function () {
         getPhotoPosts: function (skip, top, filterConfing) {
             let result = ApplicationModel.photoPosts;
 
+            if(!result)
+                return [];
             result = result.filter(function (post) {
                 return !post.deleted;
             });
@@ -135,6 +158,8 @@ let ApplicationModel = function () {
             if (ApplicationModel.validatePhotoPost(post)) {
                 ApplicationModel.photoPosts.push(post);
                 ApplicationModel.addHashTagsInMapHash(post);
+
+                ViewModule.propHash('selectFilter');
                 writeInLocalStoragePhotoPosts();
                 return true;
             }
@@ -181,8 +206,10 @@ let ApplicationModel = function () {
                     return new Date(value);
                 }
                 return value;
-            });
-            ApplicationModel.users = JSON.parse(localStorage.getItem('users'));
+            }) || [];
+            // we have array of users for authorization
+           // ApplicationModel.users = JSON.parse(localStorage.getItem('users')) || [];
+
             ApplicationModel.userAuthorized = JSON.parse(localStorage.getItem('userAuthorized'));
         },
 
@@ -210,7 +237,7 @@ let ViewModule = function () {
                 ViewModule.addDomPhotoPost(post);
             });
 
-            if(ApplicationModel.userAuthorized !== null) {
+            if (ApplicationModel.userAuthorized !== null) {
                 EventsModule.initializeLikeButtons();
                 EventsModule.initializeButtonsPost();
             }
@@ -230,11 +257,11 @@ let ViewModule = function () {
 
         addDomPhotoPost: function (post) {
             let imgForLike;
-                if(ApplicationModel.userAuthorized !== null && post.likes.indexOf(ApplicationModel.userAuthorized) !== -1) {
-                    imgForLike = './pictures/post/like.png';
-                } else {
-                    imgForLike = './pictures/post/NotPressed.png';
-                }
+            if (ApplicationModel.userAuthorized !== null && post.likes.indexOf(ApplicationModel.userAuthorized) !== -1) {
+                imgForLike = './pictures/post/like.png';
+            } else {
+                imgForLike = './pictures/post/NotPressed.png';
+            }
             let newDiv = document.createElement("div");
             newDiv.className = "post";
             newDiv.id = post.id;
@@ -300,10 +327,13 @@ let ViewModule = function () {
 
         propHash: function (name) {
             //here we're printing the most popular hashtags (we get 4 the most popular)
-            ApplicationModel.mapHash.sort(ApplicationModel.compareHash);
-            let sF = document.getElementById(name);
-            for (let i = 0; i < 4; i++) {
-                sF.children[i + 2].innerText = ApplicationModel.mapHash[i].word;
+            if (ApplicationModel.mapHash.length !== 0) {
+                ApplicationModel.mapHash.sort(ApplicationModel.compareHash);
+                let sF = document.getElementById(name);
+                for (let i = 0; i < 4; i++)
+                    if (ApplicationModel.mapHash[i]) {
+                        sF.children[i + 2].innerText = ApplicationModel.mapHash[i].word;
+                    }
             }
         }
     }
@@ -323,7 +353,7 @@ let EventsModule = function () {
     let dropAreaEdit = document.getElementById('editPhotoDrop');
     let userAdd = document.getElementById('userAdding');
     let dataAdd = document.getElementById('dataAdding');
-    let hashAdd = document.getElementById('inputHastags');
+    let hashAdd = document.getElementById('inputHashtags');
     let selectFilter = document.getElementById('selectFilter');
     let selectAdd = document.getElementById('selectAdd');
     let gallery = document.getElementById('gallery');
@@ -331,9 +361,9 @@ let EventsModule = function () {
     let formEdit = document.getElementById('editFormPostId');
     let userEdit = document.getElementById('userEdit');
     let dataEdit = document.getElementById('dataEdit');
-    let hashEdit = document.getElementById('inputHastagsEdit');
+    let hashEdit = document.getElementById('inputHashtagsEdit');
     let selectEdit = document.getElementById('selectEdit');
-    let inputHastagsEdit = document.getElementById('inputHastagsEdit');
+    let inputHastagsEdit = document.getElementById('inputHashtagsEdit');
     let inputDescriptionEdit = document.getElementById('inputDescriptionEdit');
     let galleryEdit = document.getElementById('galleryEdit');
     let error = document.getElementById('error');
@@ -434,7 +464,7 @@ let EventsModule = function () {
         e.preventDefault();
         e.stopPropagation();
     }
- 
+
     return {
         filterPosts: function () {
             let arrHashtags = [];

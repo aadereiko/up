@@ -1,0 +1,320 @@
+{
+	"info": {
+		"_postman_id": "480f13b8-7f28-4c14-b2f9-6353c31c7863",
+		"name": "lab8",
+		"description": "lab8",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "AddPhotoPost true",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n            \"id\": \"1122\",\r\n            \"description\": \"Sasha\",\r\n            \"createdAt\": \"2018-09-23T23:00:00\",\r\n            \"author\": \"aadereiko\",\r\n            \"photoLink\": \"https://i.ytimg.com/vi/AorT6fmFkHs/maxresdefault.jpg\",\r\n            \"hashtags\": [\"2017\", \"Kostyak\"],\r\n            \"likes\": [\"Kek\"],\r\n            \"deleted\": false\r\n       }"
+				},
+				"url": {
+					"raw": "localhost:3000/addPhotoPost",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"addPhotoPost"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AddPhotoPostError",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": \"1122\",\n    \"description\": \"Sasha\",\n    \"createdAt\": \"2018-09-23T20:00:00.000Z\",\n    \"photoLink\": \"https://i.ytimg.com/vi/AorT6fmFkHs/maxresdefault.jpg\",\n    \"hashtags\": [\n        \"2017\",\n        \"Kostyak\"\n    ],\n    \"likes\": [\n        \"Kek\"\n    ],\n    \"deleted\": false\n}"
+				},
+				"url": {
+					"raw": "localhost:3000/addPhotoPost",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"addPhotoPost"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getPhotoPost true",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "localhost:3000/getPhotoPost?id=1",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"getPhotoPost"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getPhotoPost Error",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "localhost:3000/getPhotoPost?id=312371283912798",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"getPhotoPost"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "312371283912798"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getPhotoPosts True",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"author\": \"Djadka.by\"\n}"
+				},
+				"url": {
+					"raw": "localhost:3000/getPhotoPosts?skip=0&top=12",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"getPhotoPosts"
+					],
+					"query": [
+						{
+							"key": "skip",
+							"value": "0"
+						},
+						{
+							"key": "top",
+							"value": "12"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getPhotoPosts Error",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"author\": \"xml\"\n}"
+				},
+				"url": {
+					"raw": "localhost:3000/getPhotoPosts?skip=0&top=12",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"getPhotoPosts"
+					],
+					"query": [
+						{
+							"key": "skip",
+							"value": "0"
+						},
+						{
+							"key": "top",
+							"value": "12"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "editPhotoPost true",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n            \"description\": \"EditedSasha\"\r\n            }"
+				},
+				"url": {
+					"raw": "localhost:3000/editPhotoPost?id=1122",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"editPhotoPost"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "1122"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "editPhotoPost Error",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n            \"description\": \"EditedSasha\"\r\n            }"
+				},
+				"url": {
+					"raw": "localhost:3000/editPhotoPost?id=11223123126378",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"editPhotoPost"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "11223123126378"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "removePhotoPost true",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n            \"description\": \"EditedSasha\"\r\n            }"
+				},
+				"url": {
+					"raw": "localhost:3000/removePhotoPost?id=1122",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"removePhotoPost"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "1122"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "removePhotoPost Error",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n            \"description\": \"EditedSasha\"\r\n            }"
+				},
+				"url": {
+					"raw": "localhost:3000/removePhotoPost?id=112241324123",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"removePhotoPost"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "112241324123"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

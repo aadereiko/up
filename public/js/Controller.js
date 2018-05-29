@@ -1,7 +1,14 @@
-"use strict";
-const EventsModule = function () {
-    //по частям
-    //то, что один раз
+(function(){
+    const model = new photoPosts();
+    const users = new users();
+
+    async function load(){
+        await users.getAllUsers();
+        await model.getAllPosts();
+    }
+
+    load();
+
     let inputLogin = document.getElementById('login');
     let inputData = document.getElementById('date');
     let inputHashtag = document.getElementById('hash');
@@ -40,8 +47,6 @@ const EventsModule = function () {
         dropArea.classList.add('highlight')
     }
 
-    //DOM
-    //rewrite Name
     function unHighLight() {
         dropArea.classList.remove('highlight')
     }
@@ -141,7 +146,7 @@ const EventsModule = function () {
                     arrHashtags.push(selectFilter.options[selectFilter.selectedIndex].value);
                 }
             }
-            EventsModule.printOnScreen(0, 30,
+            ViewModule.printOnScreen(0, 30,
                 {
                     createdAt: 0 || inputData.value,
                     hashtags:  arrHashtags.length === 0 ? 0 : arrHashtags,
@@ -150,8 +155,8 @@ const EventsModule = function () {
         },
 
         getMorePosts: function () {
-            ServerApplicationModule.begOfVisiblePosts += 10;
-            EventsModule.printOnScreen(ServerApplicationModule.begOfVisiblePosts, ServerApplicationModule.begOfVisiblePosts + 10);
+            ApplicationModule.begOfVisiblePosts += 10;
+            ViewModule.printOnScreen(ApplicationModule.begOfVisiblePosts, ApplicationModule.begOfVisiblePosts + 10);
         },
 
         closeForms: function () {
@@ -173,10 +178,10 @@ const EventsModule = function () {
             userAdd.innerText = 'Пользователь: ';
             dataAdd.innerText = 'Дата: ';
             gallery.innerHTML = '';
-            EventsModule.propHash('selectAdd');
+            ViewModule.propHash('selectAdd');
             grayBackground.style.display = 'block';
             formAdding.style.display = 'block';
-            userAdd.innerText += ServerApplicationModule.userAuthorized;
+            userAdd.innerText += ApplicationModule.userAuthorized;
             dataAdd.innerText += new Date();
         },
 
@@ -188,37 +193,37 @@ const EventsModule = function () {
             galleryEdit.innerHTML = '';
             edittingPostId = e.target.id.substring(5);
             let imgEdit = document.createElement('img');
-            indexEditPost = ServerApplicationModule.photoPosts.map((post)=>{
+            indexEditPost = ApplicationModule.photoPosts.map((post)=>{
                 return post.id;
             }).indexOf(edittingPostId);
             grayBackground.style.display = 'block';
             formEdit.style.display = 'block';
             //new object for edit post
-            userEdit.innerText += ServerApplicationModule.userAuthorized;
-            dataEdit.innerText += ServerApplicationModule.photoPosts[indexEditPost].createdAt;
-            inputHastagsEdit.value = EventsModule.makeStringForHashtags(ServerApplicationModule.photoPosts[indexEditPost].hashtags);
-            inputDescriptionEdit.value = ServerApplicationModule.photoPosts[indexEditPost].description;
-            imgEdit.src = ServerApplicationModule.photoPosts[indexEditPost].photoLink;
+            userEdit.innerText += ApplicationModule.userAuthorized;
+            dataEdit.innerText += ApplicationModule.photoPosts[indexEditPost].createdAt;
+            inputHastagsEdit.value = ViewModule.makeStringForHashtags(ApplicationModule.photoPosts[indexEditPost].hashtags);
+            inputDescriptionEdit.value = ApplicationModule.photoPosts[indexEditPost].description;
+            imgEdit.src = ApplicationModule.photoPosts[indexEditPost].photoLink;
             galleryEdit.appendChild(imgEdit);
         },
 
         pressLike: function(e){
-            if(ServerApplicationModule.userAuthorized !== null) {
-                let indexToAction = ServerApplicationModule.photoPosts.map((post) => {
+            if(ApplicationModule.userAuthorized !== null) {
+                let indexToAction = ApplicationModule.photoPosts.map((post) => {
                     return post.id;
                 }).indexOf(e.target.id.substr(5));
                 if (indexToAction !== -1) {
-                    let indexLike =  ServerApplicationModule.photoPosts[indexToAction].likes.indexOf(ServerApplicationModule.userAuthorized);
+                    let indexLike =  ApplicationModule.photoPosts[indexToAction].likes.indexOf(ApplicationModule.userAuthorized);
                     if (indexLike === -1){
-                        ServerApplicationModule.photoPosts[indexToAction].likes.push(ServerApplicationModule.userAuthorized);
-                        localStorage.setItem('photoPosts', JSON.stringify(ServerApplicationModule.photoPosts));
-                        document.getElementById(e.target.id.replace('like', 'textLike')).innerText = ServerApplicationModule.photoPosts[indexToAction].likes.length;
+                        ApplicationModule.photoPosts[indexToAction].likes.push(ApplicationModule.userAuthorized);
+                        localStorage.setItem('photoPosts', JSON.stringify(ApplicationModule.photoPosts));
+                        document.getElementById(e.target.id.replace('like', 'textLike')).innerText = ApplicationModule.photoPosts[indexToAction].likes.length;
                         document.getElementById(e.target.id).src = './pictures/post/like.png';
                     } else {
-                        ServerApplicationModule.photoPosts[indexToAction].likes.splice(indexLike, 1);
+                        ApplicationModule.photoPosts[indexToAction].likes.splice(indexLike, 1);
                         document.getElementById(e.target.id).src = './pictures/post/NotPressed.png';
-                        document.getElementById(e.target.id.replace('like', 'textLike')).innerText = ServerApplicationModule.photoPosts[indexToAction].likes.length;
-                        localStorage.setItem('photoPosts', JSON.stringify(ServerApplicationModule.photoPosts));
+                        document.getElementById(e.target.id.replace('like', 'textLike')).innerText = ApplicationModule.photoPosts[indexToAction].likes.length;
+                        localStorage.setItem('photoPosts', JSON.stringify(ApplicationModule.photoPosts));
                     }
                 }
 
@@ -230,18 +235,18 @@ const EventsModule = function () {
             let pass = inputPassword.value;
 
             if (pass && name) {
-                let index = ServerApplicationModule.users.map((elem) => {
+                let index = ApplicationModule.users.map((elem) => {
                     return elem.author;
                 }).indexOf(name);
                 if (index !== -1) {
-                    if (ServerApplicationModule.users[index].password === pass) {
-                        EventsModule.loginView(name);
+                    if (ApplicationModule.users[index].password === pass) {
+                        ViewModule.loginView(name);
                         document.getElementById('exitBtn').addEventListener('click', EventsModule.unAuthorization);
                         document.getElementById('add').addEventListener('click', EventsModule.addPost);
                         document.getElementById('home').addEventListener('click', EventsModule.homePosts);
-                        localStorage.setItem('userAuthorized', JSON.stringify(ServerApplicationModule.userAuthorized));
+                        localStorage.setItem('userAuthorized', JSON.stringify(ApplicationModule.userAuthorized));
                         EventsModule.closeForms();
-                        EventsModule.printOnScreen(ServerApplicationModule.begOfVisiblePosts, ServerApplicationModule.begOfVisiblePosts + 10);
+                        ViewModule.printOnScreen(ApplicationModule.begOfVisiblePosts, ApplicationModule.begOfVisiblePosts + 10);
                         inputLoginAuth.value = 'Логин';
                         inputPassword.value = 'Пароль';
                         //after login we get new edit buttons
@@ -261,16 +266,16 @@ const EventsModule = function () {
         },
 
         homePosts: function(){
-            ServerApplicationModule.begOfVisiblePosts = 0;
-            EventsModule.printOnScreen(ServerApplicationModule.begOfVisiblePosts, ServerApplicationModule.begOfVisiblePosts + 10);
+            ApplicationModule.begOfVisiblePosts = 0;
+            ViewModule.printOnScreen(ApplicationModule.begOfVisiblePosts, ApplicationModule.begOfVisiblePosts + 10);
         },
 
         unAuthorization: function () {
             document.getElementById("menu").innerHTML = '';
-            EventsModule.createMenuNotForUser();
-            ServerApplicationModule.userAuthorized = null;
-            localStorage.setItem('userAuthorized', JSON.stringify(ServerApplicationModule.userAuthorized));
-            EventsModule.printOnScreen(ServerApplicationModule.begOfVisiblePosts, ServerApplicationModule.begOfVisiblePosts + 10);
+            ViewModule.createMenuNotForUser();
+            ApplicationModule.userAuthorized = null;
+            localStorage.setItem('userAuthorized', JSON.stringify(ApplicationModule.userAuthorized));
+            ViewModule.printOnScreen(ApplicationModule.begOfVisiblePosts, ApplicationModule.begOfVisiblePosts + 10);
             document.getElementById('enterMenu').addEventListener('click', EventsModule.enter);
         },
 
@@ -286,22 +291,22 @@ const EventsModule = function () {
                 }
             }
 
-            ServerApplicationModule.begOfVisiblePosts = 0;
+            ApplicationModule.begOfVisiblePosts = 0;
             let user = {
-                id: (ServerApplicationModule.photoPosts.length + 1).toString(),
+                id: (ApplicationModule.photoPosts.length + 1).toString(),
                 description: inputDescription.value,
                 createdAt: new Date(),
-                author: ServerApplicationModule.userAuthorized,
-                authorPhoto: ServerApplicationModule.users[ServerApplicationModule.users.map((user) => {
+                author: ApplicationModule.userAuthorized,
+                authorPhoto: ApplicationModule.users[ApplicationModule.users.map((user) => {
                     return user.author;
-                }).indexOf(ServerApplicationModule.userAuthorized)].authorPhoto || 0,
+                }).indexOf(ApplicationModule.userAuthorized)].authorPhoto || 0,
                 photoLink: photoLnk,
                 hashtags:  arrayHashtags.length === 0 ? 0 : arrayHashtags,
                 likes: [],
                 deleted: false
             };
-            if (ServerApplicationModule.addPhotoPost(user)) {
-                EventsModule.printOnScreen(ServerApplicationModule.begOfVisiblePosts, ServerApplicationModule.begOfVisiblePosts + 10);
+            if (ApplicationModule.addPhotoPost(user)) {
+                ViewModule.printOnScreen(ApplicationModule.begOfVisiblePosts, ApplicationModule.begOfVisiblePosts + 10);
             } else {
                 textError.innerText = 'Неверные данные';
                 EventsModule.closeForms();
@@ -325,21 +330,21 @@ const EventsModule = function () {
             let user = {
                 id: 1,
                 description: inputDescriptionEdit.value,
-                author: ServerApplicationModule.userAuthorized,
-                authorPhoto: ServerApplicationModule.photoPosts[indexEditPost].authorPhoto,
+                author: ApplicationModule.userAuthorized,
+                authorPhoto: ApplicationModule.photoPosts[indexEditPost].authorPhoto,
                 photoLink: photoLnkEdit,
                 hashtags: arrayHashtags.length === 0 ? 0 : arrayHashtags,
-                likes: ServerApplicationModule.photoPosts[indexEditPost].likes,
+                likes: ApplicationModule.photoPosts[indexEditPost].likes,
                 deleted: false
             };
 
-            let postOld = ServerApplicationModule.getPhotoPost(edittingPostId);
-            if (ServerApplicationModule.editPost(postOld.id, user)) {
-                EventsModule.editDomPhotoPost(postOld, user);
+            let postOld = ApplicationModule.getPhotoPost(edittingPostId);
+            if (ApplicationModule.editPost(postOld.id, user)) {
+                ViewModule.editDomPhotoPost(postOld, user);
                 document.getElementById('edit-'+edittingPostId).addEventListener('click', EventsModule.editPost);
                 document.getElementById('delete-'+edittingPostId).addEventListener('click', EventsModule.delettingPost);
                 document.getElementById('like-'+edittingPostId).addEventListener('click', EventsModule.pressLike);
-                localStorage.setItem('photoPosts', JSON.stringify(ServerApplicationModule.photoPosts));
+                localStorage.setItem('photoPosts', JSON.stringify(ApplicationModule.photoPosts));
                 EventsModule.closeForms();
             } else {
                 textError.innerText = 'Неверные данные';
@@ -351,9 +356,9 @@ const EventsModule = function () {
         },
 
         delettingPost: function(e) {
-            let post = ServerApplicationModule.getPhotoPost(e.target.id.substring(7));
-            if (ServerApplicationModule.removePhotoPost(post.id)) {
-                EventsModule.deleteDomPhotoPost(post);
+            let post = ApplicationModule.getPhotoPost(e.target.id.substring(7));
+            if (ApplicationModule.removePhotoPost(post.id)) {
+                ViewModule.deleteDomPhotoPost(post);
             } else
             {
                 textError.innerText = 'Неправильный пароль';
@@ -383,7 +388,7 @@ const EventsModule = function () {
             document.getElementById('downMore').addEventListener('click', EventsModule.getMorePosts);
             document.getElementById('filtersPicture').addEventListener('click', EventsModule.filterPosts);
             document.getElementById('grayBckd').addEventListener('click', EventsModule.closeForms);
-            if(ServerApplicationModule.userAuthorized === null) {
+            if(ApplicationModule.userAuthorized === null) {
                 document.getElementById('enterMenu').addEventListener('click', EventsModule.enter);
             } else {
                 document.getElementById('exitBtn').addEventListener('click', EventsModule.unAuthorization);
@@ -410,4 +415,4 @@ const EventsModule = function () {
             document.getElementById('editFormAdd').addEventListener('click', EventsModule.edittingPost);
         }
     }
-}();
+});

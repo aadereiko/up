@@ -4,12 +4,12 @@ let ViewModule = function () {
 
     return {
         printOnScreen: function (skip, top, filterConfing) {
-            let arrPosts = document.querySelectorAll(".post");
+            let arrPosts = document.querySelectorAll('.post');
             arrPosts.forEach((post) => {
                 post.remove();
             });
-            let arrForPrint = ApplicationModule.getPhotoPosts(skip, top, filterConfing);
 
+            let arrForPrint = ApplicationModule.getPhotoPosts(skip, top, filterConfing);
             arrForPrint.forEach((post) => {
                 ViewModule.addDomPhotoPost(post);
             });
@@ -116,3 +116,16 @@ let ViewModule = function () {
         }
     }
 }();
+ServerApplicationModule.initialize();
+
+// let AM = require('F:\\learning\\up\\server\\ServerApplicationModule');
+ServerApplicationModule.fillInformation();
+EventsModule.printOnScreen(AM.begOfVisiblePosts, AM.begOfVisiblePosts + 10);
+if (AM.userAuthorized === null) {
+    EventsModule.createMenuNotForUser();
+} else {
+    EventsModule.createMenuForUser();
+}
+AM.fillMapHash();
+EventsModule.propHash('selectFilter');
+EventsModule.initialization();

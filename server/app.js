@@ -1,9 +1,8 @@
-var http = require('http');
 var express = require('express');
 var bodyParser = require('body-parser');
 var app = express();
-var fs = require('fs');
-var path = require('path');
+const fs = require('fs');
+app.use('/', express.static('F:\\learning\\up\\public'));
 app.use(bodyParser.json());
 
 var AM = require('./ServerApplicationModule');
@@ -11,7 +10,7 @@ var AM = require('./ServerApplicationModule');
 app.get('/getPhotoPost', (req, res) => {
     let post = AM.getPhotoPost(req.query.id.toString());
     if (post) {
-        res.send(post).end();
+        res.sstatus(200).send(post).end();
     } else {
         res.send(404).end();
     }
@@ -20,7 +19,7 @@ app.get('/getPhotoPost', (req, res) => {
 app.post('/getPhotoPosts', (req, res) => {
     let gotPhotoPosts = AM.getPhotoPosts(req.query.skip, req.query.top, req.body);
     if(gotPhotoPosts && gotPhotoPosts.length !== 0){
-        res.send(gotPhotoPosts).end();
+        res.status(200).send(gotPhotoPosts).end();
     } else {
         res.send(404).end();
     }
@@ -47,6 +46,24 @@ app.put('/editPhotoPost', (req, res) => {
        res.send(404).end();
    }
 });
+
+app.get('/getAllUsers', (req, res) => {
+    let users = AM.getAllUsers();
+    if(users){
+        res.status(200).send(users).end();
+    } else {
+        res.send(404).end();
+    }
+})
+
+app.get('/getAllPhotoPosts', (req, res) => {
+    let posts = AM.getAllPosts(0);
+    if(posts){
+        res.status(200).send(posts).end();
+    } else {
+        res.send(404).end();
+    }
+})
 
 app.delete('/removePhotoPost', (req, res)=>{
     if(AM.removePhotoPost(req.query.id)){

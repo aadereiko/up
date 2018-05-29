@@ -7,8 +7,6 @@ let ApplicationModule = function () {
         localStorage.setItem('photoPosts', JSON.stringify(ApplicationModule.photoPosts));
     }
 
-
-
     return {
         userAuthorized: null,
         mapHash: [],
@@ -103,9 +101,9 @@ let ApplicationModule = function () {
         getUrlAva: function (name) {
             let index = ApplicationModule.users.map((elem) => {
                 return elem.author;
-            }).indexOf(name);
+            }).indexOf(name); //findIndex
             if (index === -1) {
-                return 0
+                return '';
             } else {
                 return ApplicationModule.users[index].authorPhoto;
             }
@@ -196,7 +194,7 @@ let ApplicationModule = function () {
         },
 
         fillMapHash: function () {
-            for (let i = 0; i < ApplicationModule.photoPosts.length; i++) {
+            for (let i = 0; i < ApplicationModule.photoPosts.length; i++) {// forEach
                 ApplicationModule.addHashTagsInMapHash(ApplicationModule.photoPosts[i]);
             }
         },
